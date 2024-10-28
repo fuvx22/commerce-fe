@@ -1,4 +1,5 @@
 const Footer = () => {
+
     return (
         <footer className="bg-blue-600 text-white py-10">
             <div className="container mx-auto">
@@ -6,7 +7,7 @@ const Footer = () => {
                     <a href="#" className="hover:underline">Home</a>
                     <a href="#" className="hover:underline">Shop</a>
                     <a href="#" className="hover:underline">About</a>
-                    <a href="#" className="hover:underline">Contact</a>
+                    <a href="#" className="hover:underline">Contact</a>                    
                 </div>
             </div>
             
