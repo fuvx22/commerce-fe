@@ -1,8 +1,8 @@
 const Footer = () => {
 
     return (
-        <footer className="bg-blue-600 text-white py-10">
-            <div className="container mx-auto">
+        <footer className="bg-white border-t-2">
+            <div className="container mx-auto p-4">
                 <div className="flex justify-center gap-3">
                     <a href="#" className="hover:underline">Home</a>
                     <a href="#" className="hover:underline">Shop</a>
