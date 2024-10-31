@@ -1,14 +1,16 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "@/layouts/layout";
-import LoginForm from "@/components/LoginForm";
 import UserProfile from "@/pages/UserProfile";
 import { PrivateRoute } from "@/components/PrivateRoute";
+import LoginPage from "@/pages/LoginPage";
+import RegisterPage from "@/pages/RegisterPage";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout>Home page</Layout>} />
-      <Route path="/login" element={<Layout><LoginForm /></Layout>} />
+      <Route path="/login" element={<Layout><LoginPage /></Layout>} />
+      <Route path="/register" element={<Layout><RegisterPage /></Layout>} />
       <Route path="/shop" element={<Layout>Shop page</Layout>} />
       <Route
         path="/profile"

@@ -1,10 +1,6 @@
-import React, {
-  createContext,
-  useContext,
-  useState,
-  useEffect,
-} from "react";
+import React, { createContext, useContext, useState, useEffect } from "react";
 import { User, AuthContextType } from "@/types/auth";
+import { LoginFormData } from "@/components/forms/LoginForm";
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -27,7 +23,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     setLoading(false);
   }, []);
 
-  const login = async (email: string, password: string) => {
+  const login = async (data: LoginFormData) => {
     try {
       setLoading(true);
       // Giả lập API call
@@ -35,7 +31,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
         setTimeout(() => {
           resolve({
             id: "1",
-            email: email,
+            email: data.email,
             name: "Test User",
           });
         }, 1000)
@@ -69,7 +65,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 export const useAuth = () => {
   const context = useContext(AuthContext);
   if (!context) {
-    throw new Error('useAuth must be used within an AuthProvider');
+    throw new Error("useAuth must be used within an AuthProvider");
   }
   return context;
 };
