@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 
 const LoadingButton = () => {
   return (
-    <Button disabled className="flex-1">
+    <Button disabled className="flex-1 w-full">
       <Loader2 className="mr-2 h-4 w-4 animate-spin" />
       Loading
     </Button>

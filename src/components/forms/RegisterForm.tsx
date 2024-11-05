@@ -107,7 +107,7 @@ const RegisterForm = ({ onSubmit, isLoading, title, buttonText }: Props) => {
               <FormControl>
                 <Input
                   {...field}
-                  // type="password"
+                  type="password"
                   placeholder="mật khẩu của bạn"
                 />
               </FormControl>
@@ -125,7 +125,7 @@ const RegisterForm = ({ onSubmit, isLoading, title, buttonText }: Props) => {
               <FormControl>
                 <Input
                   {...field}
-                  // type="password"
+                  type="password"
                   placeholder="xác nhận mật khẩu của bạn"
                 />
               </FormControl>
