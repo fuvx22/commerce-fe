@@ -6,7 +6,7 @@ import { useRegisterAPI } from "@/apis/authAPI";
 
 const RegisterPage = () => {
 
-  const { isLoading, error, response, registerRequest } = useRegisterAPI();
+  const { isLoading, response, registerRequest } = useRegisterAPI();
 
   return (
     <div>
@@ -16,6 +16,7 @@ const RegisterPage = () => {
           buttonText="đăng ký"
           isLoading={isLoading}
           onSubmit={(data: RegisterFormData) => registerRequest(data)}
+          response={response as any}
         />
       </div>
     </div>

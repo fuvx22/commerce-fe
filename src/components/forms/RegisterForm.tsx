@@ -19,6 +19,9 @@ import {
   SelectValue,
 } from "@/components/ui/select";
 import LoadingButton from "@/components/LoadingButton";
+import { useEffect, useState } from "react";
+import Message from "@/components/Message";
+import Error from "@/components/Error";
 
 const formSchema = z
   .object({
@@ -43,9 +46,28 @@ type Props = {
   isLoading: boolean;
   title?: string;
   buttonText?: string;
+  response?: any; 
 };
 
-const RegisterForm = ({ onSubmit, isLoading, title, buttonText }: Props) => {
+
+const RegisterForm = ({ onSubmit, isLoading, title, buttonText, response }: Props) => {
+
+  const [message, setMessage] = useState<string | null>(null);
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    if (response && response.statusCode === 200) {
+      setMessage("Đăng ký thành công");
+      setError(null);
+    } else 
+    if (response && response.status === 400) {
+      setError("Email đã tồn tại!");
+      setMessage(null);
+    }
+  }
+  , [response]);
+
+
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(formSchema),
   });
@@ -155,6 +177,9 @@ const RegisterForm = ({ onSubmit, isLoading, title, buttonText }: Props) => {
             </FormItem>
           )}
         />
+
+        <Message message={message} />
+        <Error message={error} />
 
         {isLoading ? (
           <LoadingButton />
