@@ -6,10 +6,10 @@ const UserProfile = () => {
 
   return (
     <div>
-      <h1>User Profile</h1>
-      <p>ID: {user?.id}</p>
+      <h1 className="text-2xl font-bold my-2">User Profile</h1>
+      <p>Role: {user?.role}</p>
       <p>Email: {user?.email}</p>
-      <p>Name: {user?.name}</p>
+      <p>Name: {user?.fullName}</p>
 
       <div>
         <Button onClick={logout}>Logout</Button>

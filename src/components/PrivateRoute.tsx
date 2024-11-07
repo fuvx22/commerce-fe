@@ -1,15 +1,23 @@
-import { Navigate } from 'react-router-dom';
-import { useAuth } from '@/auth/authContext';
+import { Navigate } from "react-router-dom";
+import { useAuth } from "@/auth/authContext";
 
-export const PrivateRoute: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+type Props = {
+  children: React.ReactNode;
+  type?: string;
+};
+
+export const PrivateRoute = ({ children, type }: Props) => {
   const { isAuthenticated, loading } = useAuth();
-
   if (loading) {
     return <div>Loading...</div>;
   }
 
-  if (!isAuthenticated) {
-    return <Navigate to="/" />;
+  if (type === "guest" && isAuthenticated) {
+    return <Navigate to="/profile" />;
+  }
+
+  if (!type && !isAuthenticated) {
+    return <Navigate to="/login" />;
   }
 
   return <>{children}</>;

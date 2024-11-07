@@ -11,7 +11,11 @@ import {
   FormLabel,
   FormMessage,
 } from "@/components/ui/form";
-import LoadingButton from "../LoadingButton";
+import LoadingButton from "@/components/LoadingButton";
+import Error from "@/components/Error";
+import { useAuth } from "@/auth/authContext";
+import { useEffect, useState } from "react";
+
 
 const formSchema = z.object({
   email: z.string().email({ message: "invalid email" }),
@@ -27,7 +31,21 @@ type Props = {
   buttonText?: string;
 };
 
-const LoginForm = ({ onSubmit, isLoading, title, buttonText }: Props) => {
+const LoginForm = ({
+  onSubmit,
+  isLoading,
+  title,
+  buttonText,
+}: Props) => {
+  const { message } = useAuth();
+  const [error, setError] = useState<string | null>(null);
+
+  useEffect(() => {
+    setError(message);
+  }
+  , [message]);
+
+
   const form = useForm<LoginFormData>({
     resolver: zodResolver(formSchema),
     defaultValues: {
@@ -35,6 +53,8 @@ const LoginForm = ({ onSubmit, isLoading, title, buttonText }: Props) => {
       password: "",
     },
   });
+
+
   return (
     <Form {...form}>
       <form
@@ -73,6 +93,7 @@ const LoginForm = ({ onSubmit, isLoading, title, buttonText }: Props) => {
             </FormItem>
           )}
         />
+        <Error message={error} />
         {isLoading ? (
           <LoadingButton />
         ) : (
@@ -82,7 +103,10 @@ const LoginForm = ({ onSubmit, isLoading, title, buttonText }: Props) => {
         )}
         <h4 className="text-center">
           Chưa có tài khoản?
-          <a href="/register" className="text-blue-500"> Đăng ký ngay</a>
+          <a href="/register" className="text-blue-500">
+            {" "}
+            Đăng ký ngay
+          </a>
         </h4>
       </form>
     </Form>

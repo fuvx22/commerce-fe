@@ -9,8 +9,26 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout>Home page</Layout>} />
-      <Route path="/login" element={<Layout><LoginPage /></Layout>} />
-      <Route path="/register" element={<Layout><RegisterPage /></Layout>} />
+      <Route
+        path="/login"
+        element={
+          <PrivateRoute type="guest">
+            <Layout>
+              <LoginPage />
+            </Layout>
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/register"
+        element={
+          <PrivateRoute type="guest">
+          <Layout>
+            <RegisterPage />
+          </Layout>
+          </PrivateRoute>
+        }
+      />
       <Route path="/shop" element={<Layout>Shop page</Layout>} />
       <Route
         path="/profile"

@@ -7,10 +7,10 @@ const Error = ({ message }: Props) => {
 
   return (
     <div
-      className="bg-red-100 border border-red-400 text-red-700 px-4 py-3 rounded relative w-ful text-center"
+      className="bg-red-100 border border-red-400 text-red-700 py-2 rounded relative w-ful text-center"
       role="alert"
     >
-      <span className="block font-bold sm:inline">{message}</span>
+      <span className="block font-semibold sm:inline">{message}</span>
     </div>
 
   );

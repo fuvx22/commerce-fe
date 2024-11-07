@@ -1,3 +1,4 @@
+import { LoginFormData } from "@/components/forms/LoginForm";
 import { RegisterFormData } from "@/components/forms/RegisterForm";
 import axios from "axios";
 import { useState } from "react";
@@ -29,4 +30,34 @@ function useRegisterAPI() {
   return { isLoading, response, registerRequest };
 }
 
-export { useRegisterAPI };
+function useLoginAPI() {
+
+  const loginRequest = async (data: LoginFormData) => {
+    try {
+      const response = await axios.post(`${BACKEND_URL}/api/Users/login`, data);
+      return response.data;
+    } catch (error) {
+      return error?.response?.data;
+    }
+  };
+
+  return {  loginRequest };
+}
+
+const autoLogin = async () => {
+  const token = localStorage.getItem("access-token");
+  if (token) {
+    const res = await axios.get(`${BACKEND_URL}/api/Users/user-info`, {
+      headers: {
+        Authorization: `Bearer ${token}`,
+      },
+    });
+    console.log("res", res.data);
+    return res.data;
+  }
+  return null;
+}
+
+
+export { useRegisterAPI, useLoginAPI, autoLogin };
+

@@ -169,8 +169,8 @@ const RegisterForm = ({ onSubmit, isLoading, title, buttonText, response }: Prop
                   </SelectTrigger>
                 </FormControl>
                 <SelectContent>
-                  <SelectItem value="Nam">Nam</SelectItem>
-                  <SelectItem value="Nữ">Nữ</SelectItem>
+                  <SelectItem value="male">Nam</SelectItem>
+                  <SelectItem value="female">Nữ</SelectItem>
                 </SelectContent>
               </Select>
               <FormMessage />

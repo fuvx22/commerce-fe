@@ -9,6 +9,7 @@ import { Avatar, AvatarFallback, AvatarImage } from "@/components/ui/avatar";
 import { Button } from "@/components/ui/button";
 import { User } from "@/types/auth";
 import { useAuth } from "@/auth/authContext";
+import { Link } from "react-router-dom";
 
 const UserDropDownMenu: React.FC<{ user: User | null }> = ({ user }) => {
 
@@ -16,7 +17,7 @@ const UserDropDownMenu: React.FC<{ user: User | null }> = ({ user }) => {
 
   return (
     <DropdownMenu>
-      <span className="text-base">{user?.name}</span>
+      <span className="text-base">{user?.fullName}</span>
       <DropdownMenuTrigger>
         <Avatar className="h-8 w-8 cursor-pointer">
           <AvatarImage src="https://github.com/shadcn.png" alt="@shadcn" />
@@ -24,7 +25,11 @@ const UserDropDownMenu: React.FC<{ user: User | null }> = ({ user }) => {
         </Avatar>
       </DropdownMenuTrigger>
       <DropdownMenuContent align="end">
-        <DropdownMenuItem>Tài khoản của tôi</DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link to={"/profile"}>
+          Tài khoản của tôi
+          </Link>
+          </DropdownMenuItem>
         <DropdownMenuItem>Đơn hàng của tôi</DropdownMenuItem>
         <DropdownMenuItem>Billing</DropdownMenuItem>
         <DropdownMenuSeparator />
