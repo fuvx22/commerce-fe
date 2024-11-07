@@ -13,6 +13,7 @@ function useRegisterAPI() {
     setIsLoading(true);
     try {
       const { passwordConfirmation, ...rest } = data; // eslint-disable-line @typescript-eslint/no-unused-vars
+      // new commit
       const response = await axios.post(`${BACKEND_URL}/api/Users/register`, {
         ...rest,
         url: defaultAvatarUrl,
