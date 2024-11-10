@@ -1,12 +1,16 @@
 import LoginForm, { LoginFormData } from "@/components/forms/LoginForm";
 import { useAuth } from "@/auth/authContext";
+import { useNavigate } from "react-router-dom";
 
 const LoginPage = () => {
+  const navigate = useNavigate();
   const { login, loading } = useAuth();
 
   const handleLogin = async (data: LoginFormData) => {
     await login(data);
+    navigate("/profile");
   };
+
   return (
     <div>
       <div className="flex justify-center items-center py-4">

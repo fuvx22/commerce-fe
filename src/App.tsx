@@ -1,9 +1,9 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "@/layouts/layout";
-import UserProfile from "@/pages/UserProfile";
 import { PrivateRoute } from "@/components/PrivateRoute";
 import LoginPage from "@/pages/LoginPage";
 import RegisterPage from "@/pages/RegisterPage";
+import UserProfilePage from "@/pages/UserProfilePage";
 
 function App() {
   return (
@@ -35,7 +35,7 @@ function App() {
         element={
           <PrivateRoute>
             <Layout>
-              <UserProfile />
+              <UserProfilePage />
             </Layout>
           </PrivateRoute>
         }

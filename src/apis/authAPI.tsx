@@ -1,5 +1,6 @@
 import { LoginFormData } from "@/components/forms/LoginForm";
 import { RegisterFormData } from "@/components/forms/RegisterForm";
+import { User } from "@/types/auth";
 import axios from "axios";
 import { useState } from "react";
 
@@ -31,7 +32,6 @@ function useRegisterAPI() {
 }
 
 function useLoginAPI() {
-
   const loginRequest = async (data: LoginFormData) => {
     try {
       const response = await axios.post(`${BACKEND_URL}/api/Users/login`, data);
@@ -41,23 +41,58 @@ function useLoginAPI() {
     }
   };
 
-  return {  loginRequest };
+  return { loginRequest };
 }
 
-const autoLogin = async () => {
+const getUserInfo = async (): Promise<User | null> => {
   const token = localStorage.getItem("access-token");
-  if (token) {
+
+  if (!token) {
+    throw new Error("Token not found");
+  }
+
+  try {
     const res = await axios.get(`${BACKEND_URL}/api/Users/user-info`, {
       headers: {
         Authorization: `Bearer ${token}`,
       },
     });
-    console.log("res", res.data);
-    return res.data;
+    return res.data.data;
+  } catch (error) {
+    throw new Error("Token expired");
   }
-  return null;
 }
 
+const autoLogin = async () => {
+  const token = localStorage.getItem("access-token");
+  const refreshToken = localStorage.getItem("refresh-token");
 
-export { useRegisterAPI, useLoginAPI, autoLogin };
+  if (!token || !refreshToken) {
+    return null;
+  }
+  console.log("trigger auto login");
+  try {
+    const res = await getUserInfo();
+    return res;
+  } catch (error) {
+      try {
+        console.log("trigger refresh token");
+        const res = await axios.post(
+          `${BACKEND_URL}/api/Users/refresh-token`,
+          { refreshToken }, // dữ liệu truyền vào
+          {
+            headers: {
+              Authorization: `Bearer ${token}`,
+            },
+          }
+        );
+        localStorage.setItem("access-token", res.data.accessToken);
+        return res.data;
+      } catch (error) {
+        console.error("error", error);
+        return null;
+      }
+  }
+};
 
+export { useRegisterAPI, useLoginAPI, autoLogin, getUserInfo };

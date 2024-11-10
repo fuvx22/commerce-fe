@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { User, AuthContextType } from "@/types/auth";
 import { LoginFormData } from "@/components/forms/LoginForm";
-import { useLoginAPI, autoLogin } from "@/apis/authAPI";
+import { useLoginAPI, autoLogin, getUserInfo } from "@/apis/authAPI";
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -10,7 +10,6 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 }) => {
   const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
-  const [isAuthenticated, setIsAuthenticated] = useState(false);
   const [message, setMessage] = useState<string | null>(null);
 
   const { loginRequest } = useLoginAPI();
@@ -20,9 +19,12 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const res = await autoLogin();
 
       if (res) {
-        setUser(res.data as User);
-        setIsAuthenticated(true);
+        setUser(res as User);
+      } else {
+        localStorage.removeItem("access-token");
+        localStorage.removeItem("refresh-token");
       }
+
       setLoading(false);
     };
 
@@ -34,22 +36,22 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
 
     const res = await loginRequest(data);
 
+    if (res && res.Status === 400) {
+      setMessage(res.Title);
+    }
     if (res && res.statusCode === 200) {
       localStorage.setItem("access-token", res.data.accessToken);
       localStorage.setItem("refresh-token", res.data.refreshToken);
-      setUser(res.data.user as User);
-      setIsAuthenticated(true);
-    }
 
-    if (res && res.Status === 400) {
-      setMessage(res.Title);
+      const userData = await getUserInfo();
+
+      setUser(userData as User);
     }
     setLoading(false);
   };
 
   const logout = () => {
     setUser(null);
-    setIsAuthenticated(false);
     localStorage.removeItem("access-token");
     localStorage.removeItem("refresh-token");
   };
@@ -59,7 +61,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     loading,
     login,
     logout,
-    isAuthenticated,
+    isAuthenticated: !!user,
     message,
   };
 
