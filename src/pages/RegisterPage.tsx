@@ -16,7 +16,7 @@ const RegisterPage = () => {
           buttonText="đăng ký"
           isLoading={isLoading}
           onSubmit={(data: RegisterFormData) => registerRequest(data)}
-          response={response as any}
+          response={response}
         />
       </div>
     </div>
