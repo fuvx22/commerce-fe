@@ -5,6 +5,7 @@ import LoginPage from "@/pages/LoginPage";
 import RegisterPage from "@/pages/RegisterPage";
 import UserProfilePage from "@/pages/UserProfilePage";
 import ProductsPage from "@/pages/ProductsPage";
+import CartPage from "@/pages/CardPage";
 
 function App() {
   return (
@@ -31,6 +32,7 @@ function App() {
         }
       />
       <Route path="/shop" element={<Layout><ProductsPage></ProductsPage></Layout>} />
+      <Route path="/cart" element={<Layout><CartPage></CartPage></Layout>} />
       <Route
         path="/profile"
         element={

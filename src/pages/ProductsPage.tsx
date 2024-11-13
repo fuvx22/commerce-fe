@@ -79,6 +79,16 @@ const ProductsPage = () => {
         discount: 20,
         stock: 20,
       },
+      {
+        _id: "6",
+        name: "Áo khoác nỉ màu đen thời trang",
+        price: 599000,
+        description: "Description 2",
+        category: "Category 2",
+        image: "https://via.placeholder.com/150",
+        discount: 20,
+        stock: 20,
+      },
     ];
     setProducts(products);
   }, [currentPage, search, category]);
