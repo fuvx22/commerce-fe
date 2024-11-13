@@ -4,6 +4,7 @@ import { PrivateRoute } from "@/components/PrivateRoute";
 import LoginPage from "@/pages/LoginPage";
 import RegisterPage from "@/pages/RegisterPage";
 import UserProfilePage from "@/pages/UserProfilePage";
+import ProductsPage from "@/pages/ProductsPage";
 
 function App() {
   return (
@@ -29,7 +30,7 @@ function App() {
           </PrivateRoute>
         }
       />
-      <Route path="/shop" element={<Layout>Shop page</Layout>} />
+      <Route path="/shop" element={<Layout><ProductsPage></ProductsPage></Layout>} />
       <Route
         path="/profile"
         element={
