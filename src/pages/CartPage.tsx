@@ -26,16 +26,16 @@ const CartPage: React.FC = () => {
       {cart.length === 0 ? (
         <p>Giỏ hàng của bạn đang trống.</p>
       ) : (
-        <div className="flex flex-col md:flex-row justify-evenly">
+        <div className="flex flex-col md:flex-row gap-2 md:gap-8 justify-center">
           <ul className="cart-items flex flex-col gap-2">
             {cart.map((item) => (
               <li
                 key={item._id}
-                className="h-[120px] w-[720px] max-w-full flex border rounded-lg items-center"
+                className="h-[120px] w-[720px] max-w-full flex border rounded-lg items-center "
               >
-                <div className="w-[120px] overflow-hidden">
+                <div className="w-[120px] h-full overflow-hidden">
                   <img
-                    className="object-cover"
+                    className="max-w-full h-full object-cover m-auto"
                     src={item.image}
                     alt={item.name}
                   />
@@ -68,7 +68,7 @@ const CartPage: React.FC = () => {
               </li>
             ))}
           </ul>
-          <Card className="px-10">
+          <Card className="px-6">
             <CardHeader>
               <CardTitle className="text-xl">Thanh toán</CardTitle>
             </CardHeader>

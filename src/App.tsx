@@ -5,7 +5,7 @@ import LoginPage from "@/pages/LoginPage";
 import RegisterPage from "@/pages/RegisterPage";
 import UserProfilePage from "@/pages/UserProfilePage";
 import ProductsPage from "@/pages/ProductsPage";
-import CartPage from "@/pages/CardPage";
+import CartPage from "@/pages/CartPage";
 
 function App() {
   return (

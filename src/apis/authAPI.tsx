@@ -3,6 +3,8 @@ import { RegisterFormData } from "@/components/forms/RegisterForm";
 import { User } from "@/types/auth";
 import axios from "axios";
 import { useState } from "react";
+import { refreshToken } from "@/apis/axiosInstance";
+
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 const defaultAvatarUrl = import.meta.env.VITE_DEFAULT_AVATAR_URL;
@@ -61,37 +63,27 @@ const getUserInfo = async (): Promise<User | null> => {
   } catch (error) {
     throw new Error("Token expired");
   }
-}
+};
 
 const autoLogin = async () => {
   const token = localStorage.getItem("access-token");
-  const refreshToken = localStorage.getItem("refresh-token");
+  const refreshTokenValue = localStorage.getItem("refresh-token");
 
-  if (!token || !refreshToken) {
+  if (!token || !refreshTokenValue) {
     return null;
   }
-  console.log("trigger auto login");
   try {
     const res = await getUserInfo();
     return res;
   } catch (error) {
-      try {
-        console.log("trigger refresh token");
-        const res = await axios.post(
-          `${BACKEND_URL}/api/Users/refresh-token`,
-          { refreshToken }, // dữ liệu truyền vào
-          {
-            headers: {
-              Authorization: `Bearer ${token}`,
-            },
-          }
-        );
-        localStorage.setItem("access-token", res.data.accessToken);
-        return res.data;
-      } catch (error) {
-        console.error("error", error);
-        return null;
-      }
+    try {
+      console.error("trigger refresh token");
+      await refreshToken();
+      return await getUserInfo();
+    } catch (error) {
+      console.error("refesh token error:", error);
+      return null;
+    }
   }
 };
 

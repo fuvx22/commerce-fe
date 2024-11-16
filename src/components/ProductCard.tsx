@@ -13,11 +13,8 @@ const ProductCard = (product: Product) => {
 
   return (
     <Card className="overflow-hidden">
-      <AspectRatio ratio={1}>
-        <img
-          src="https://dytbw3ui6vsu6.cloudfront.net/media/catalog/product/resize/914x914/ADLV/ADLV-23SS-ZPLBSN-BLK-002.webp"
-          alt="Product"
-        />
+      <AspectRatio ratio={1} className="overflow-hidden">
+        <img src={product.image} alt="Product" className="h-full w-full object-cover" />
       </AspectRatio>
       <CardContent className="p-2">
         <CardTitle className="text-xl text-center">{product.name}</CardTitle>

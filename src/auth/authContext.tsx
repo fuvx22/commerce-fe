@@ -21,8 +21,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       if (res) {
         setUser(res as User);
       } else {
-        localStorage.removeItem("access-token");
-        localStorage.removeItem("refresh-token");
+        setUser(null);
       }
 
       setLoading(false);
@@ -46,6 +45,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
       const userData = await getUserInfo();
 
       setUser(userData as User);
+      
     }
     setLoading(false);
   };
