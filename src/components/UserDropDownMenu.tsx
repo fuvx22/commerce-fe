@@ -19,8 +19,8 @@ const UserDropDownMenu: React.FC<{ user: User | null }> = ({ user }) => {
     <DropdownMenu>
       <span className="text-base">{user?.fullName}</span>
       <DropdownMenuTrigger>
-        <Avatar className="h-8 w-8 cursor-pointer">
-          <AvatarImage src={user?.imageUrl ?? "https://github.com/shadcn.png"} alt="@shadcn" />
+        <Avatar className="h-8 w-8 cursor-pointer border">
+          <AvatarImage className="object-cover" src={user?.imageUrl ?? "https://github.com/shadcn.png"} alt="@shadcn" />
           <AvatarFallback>U</AvatarFallback>
         </Avatar>
       </DropdownMenuTrigger>

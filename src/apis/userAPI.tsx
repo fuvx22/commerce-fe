@@ -6,8 +6,9 @@ function useUpdateUserAPI() {
   const [isLoading, setIsLoading] = useState<boolean>(false);
   const [response, setResponse] = useState<unknown>(null);
 
-  const updateUserRequest = async (data: UserFormData) => {
+  const updateUserRequest = async (data: UserFormData): Promise<boolean> => {
     setIsLoading(true);
+    let isSuccessful = false;
     try {
       const response = await axiosInstance.put("/api/Users/update", {
         ...data,
@@ -15,11 +16,13 @@ function useUpdateUserAPI() {
         phone: data.phoneNumber,
       });
       setResponse(response.data);
+      isSuccessful = true;
     } catch (error) {
-      setResponse(error);
+      console.error(error);
     } finally {
       setIsLoading(false);
     }
+    return isSuccessful;
   };
 
   return { isLoading, response, updateUserRequest };
