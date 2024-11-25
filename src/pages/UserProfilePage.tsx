@@ -4,6 +4,7 @@ import UserForm, { UserFormData } from "@/components/forms/userForm";
 import { useUpdateUserAPI } from "@/apis/userAPI";
 import EditAvatarDialog from "@/components/EditAvatarDialog";
 import { useShowToast } from "@/utils/toats";
+import LoadingPanel from "@/components/LoadingPanel";
 
 const UserProfilePage = () => {
   const { showToast } = useShowToast();
@@ -11,7 +12,7 @@ const UserProfilePage = () => {
   const { isLoading, updateUserRequest } = useUpdateUserAPI();
 
   if (loading) {
-    return <p>Loading...</p>;
+    return <LoadingPanel />;
   }
 
   const handleSubmit = async (data: UserFormData) => {

@@ -1,5 +1,6 @@
 import { Navigate } from "react-router-dom";
 import { useAuth } from "@/auth/authContext";
+import LoadingPanel from "@/components/LoadingPanel";
 
 type Props = {
   children: React.ReactNode;
@@ -7,13 +8,18 @@ type Props = {
 };
 
 export const PrivateRoute = ({ children, type }: Props) => {
-  const { isAuthenticated, loading } = useAuth();
+  const { isAuthenticated, user, loading } = useAuth();
+
   if (loading) {
-    return <div>Loading...</div>;
+    return <LoadingPanel />;
   }
 
   if (type === "guest" && isAuthenticated) {
     return <Navigate to="/profile" />;
+  }
+
+  if (type === "admin" && user?.role !== "Admin") {
+    return <Navigate to="/" />;
   }
 
   if (!type && !isAuthenticated) {

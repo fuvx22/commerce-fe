@@ -6,6 +6,8 @@ import RegisterPage from "@/pages/RegisterPage";
 import UserProfilePage from "@/pages/UserProfilePage";
 import ProductsPage from "@/pages/ProductsPage";
 import CartPage from "@/pages/CartPage";
+import CategoryManagePage from "./pages/CategoryManagePage";
+import LoadingPanel from "./components/LoadingPanel";
 
 function App() {
   return (
@@ -25,14 +27,28 @@ function App() {
         path="/register"
         element={
           <PrivateRoute type="guest">
-          <Layout>
-            <RegisterPage />
-          </Layout>
+            <Layout>
+              <RegisterPage />
+            </Layout>
           </PrivateRoute>
         }
       />
-      <Route path="/shop" element={<Layout><ProductsPage></ProductsPage></Layout>} />
-      <Route path="/cart" element={<Layout><CartPage></CartPage></Layout>} />
+      <Route
+        path="/shop"
+        element={
+          <Layout>
+            <ProductsPage></ProductsPage>
+          </Layout>
+        }
+      />
+      <Route
+        path="/cart"
+        element={
+          <Layout>
+            <CartPage></CartPage>
+          </Layout>
+        }
+      />
       <Route
         path="/profile"
         element={
@@ -41,6 +57,25 @@ function App() {
               <UserProfilePage />
             </Layout>
           </PrivateRoute>
+        }
+      />
+
+      <Route
+        path="category-management"
+        element={
+          <PrivateRoute type="admin">
+            <Layout>
+              <CategoryManagePage />
+            </Layout>
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="test"
+        element={
+          <Layout>
+            <LoadingPanel />
+          </Layout>
         }
       />
 

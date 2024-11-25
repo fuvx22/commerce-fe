@@ -15,7 +15,7 @@ const saveCart = (cart: CartItem[]): void => {
 
 const addToCart = (product: Product, quantity: number = 1): void => {
   const cart = getCart();
-  const existingItem = cart.find(item => item._id === product._id);
+  const existingItem = cart.find(item => item.id === product.id);
 
   if (existingItem) {
     existingItem.quantity += quantity;
@@ -27,13 +27,13 @@ const addToCart = (product: Product, quantity: number = 1): void => {
 };
 
 const removeFromCart = (productId: string): void => {
-  const cart = getCart().filter(item => item._id !== productId);
+  const cart = getCart().filter(item => item.id !== productId);
   saveCart(cart);
 };
 
 const updateCartItem = (productId: string, quantity: number): void => {
   const cart = getCart();
-  const item = cart.find(item => item._id === productId);
+  const item = cart.find(item => item.id === productId);
 
   if (item) {
     item.quantity = quantity;

@@ -30,8 +30,9 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     fetchUser();
   }, []);
 
-  const login = async (data: LoginFormData) => {
+  const login = async (data: LoginFormData): Promise<boolean> => {
     setLoading(true);
+    let isSuccessful = false;
 
     const res = await loginRequest(data);
 
@@ -41,13 +42,15 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     if (res && res.statusCode === 200) {
       localStorage.setItem("access-token", res.data.accessToken);
       localStorage.setItem("refresh-token", res.data.refreshToken);
+      isSuccessful = true;
 
       const userData = await getUserInfo();
 
       setUser(userData as User);
-      
+      setMessage(null);
     }
     setLoading(false);
+    return isSuccessful;
   };
 
   const logout = () => {

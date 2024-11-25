@@ -2,6 +2,7 @@ import { Link } from "react-router-dom";
 import { useAuth } from "@/auth/authContext";
 import UserDropDownMenu from "@/components/UserDropDownMenu";
 import { ShoppingCart, Search } from "lucide-react";
+import AdminMenuDropdown from "@/components/ui/AdminMenuDropdown";
 
 const MainNav = () => {
   const { user, isAuthenticated } = useAuth();
@@ -10,13 +11,19 @@ const MainNav = () => {
     <div className="flex gap-3 items-center">
       <Link to={"/shop"}>Shop</Link>
       <Link to={"/cart"}>
-        <ShoppingCart/>
+        <ShoppingCart />
       </Link>
       <Link to={"/search"}>
-        <Search/>
+        <Search />
       </Link>
-
       <span className="text-slate-400">|</span>
+      {isAuthenticated && user?.role === "Admin" && (
+        <>
+          <AdminMenuDropdown />
+          <span className="text-slate-400">|</span>
+        </>
+      )}
+
       {isAuthenticated ? (
         <UserDropDownMenu user={user} />
       ) : (

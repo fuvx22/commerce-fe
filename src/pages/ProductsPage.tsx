@@ -30,7 +30,7 @@ const ProductsPage = () => {
     // mock data products for testing
     const products = [
       {
-        _id: "1",
+        id: "1",
         name: "Product 1",
         price: 100,
         description: "Description 1",
@@ -40,7 +40,7 @@ const ProductsPage = () => {
         stock: 10,
       },
       {
-        _id: "2",
+        id: "2",
         name: "Product 2",
         price: 200,
         description: "Description 2",
@@ -50,7 +50,7 @@ const ProductsPage = () => {
         stock: 20,
       },
       {
-        _id: "3",
+        id: "3",
         name: "Product 3",
         price: 200,
         description: "Description 2",
@@ -60,7 +60,7 @@ const ProductsPage = () => {
         stock: 20,
       },
       {
-        _id: "4",
+        id: "4",
         name: "Product 4",
         price: 200,
         description: "Description 2",
@@ -70,7 +70,7 @@ const ProductsPage = () => {
         stock: 20,
       },
       {
-        _id: "5",
+        id: "5",
         name: "Product 5",
         price: 200,
         description: "Description 2",
@@ -80,7 +80,7 @@ const ProductsPage = () => {
         stock: 20,
       },
       {
-        _id: "6",
+        id: "6",
         name: "Áo khoác nỉ màu đen thời trang",
         price: 599000,
         description: "Description 2",

@@ -7,8 +7,10 @@ const LoginPage = () => {
   const { login, loading } = useAuth();
 
   const handleLogin = async (data: LoginFormData) => {
-    await login(data);
-    navigate("/profile");
+    const isSuccessful = await login(data);
+    if (isSuccessful) {
+      navigate("/profile");
+    }
   };
 
   return (

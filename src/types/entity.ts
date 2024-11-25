@@ -1,5 +1,5 @@
 export interface Product {
-    _id: string;
+    id: string;
     name: string;
     price: number;
     description: string;
@@ -10,4 +10,11 @@ export interface Product {
 }
 export interface CartItem extends Product {
     quantity: number;
+}
+
+export interface Category {
+    id: string;
+    name: string;
+    categoryAliasName: string;
+    description: string;
 }
