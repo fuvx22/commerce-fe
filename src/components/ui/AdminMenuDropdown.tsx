@@ -14,13 +14,14 @@ const AdminMenuDropdown = () => {
       </DropdownMenuTrigger>
       <DropdownMenuContent align="center">
         <DropdownMenuItem>
-          <Link to={"/category-management"}>
-          Quản lý danh mục
-          </Link>
-          </DropdownMenuItem>
+          <Link to={"/category-management"}>Quản lý danh mục</Link>
+        </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link to={"/product-management"}>Quản lý sản phẩm</Link>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
-  )
-}
+  );
+};
 
 export default AdminMenuDropdown;

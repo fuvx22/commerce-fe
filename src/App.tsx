@@ -6,8 +6,9 @@ import RegisterPage from "@/pages/RegisterPage";
 import UserProfilePage from "@/pages/UserProfilePage";
 import ProductsPage from "@/pages/ProductsPage";
 import CartPage from "@/pages/CartPage";
-import CategoryManagePage from "./pages/CategoryManagePage";
-import LoadingPanel from "./components/LoadingPanel";
+import CategoryManagePage from "@/pages/CategoryManagePage";
+import ProductManagePage from "@/pages/ProductManagePage";
+import LoadingPanel from "@/components/LoadingPanel";
 
 function App() {
   return (
@@ -66,6 +67,16 @@ function App() {
           <PrivateRoute type="admin">
             <Layout>
               <CategoryManagePage />
+            </Layout>
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="product-management"
+        element={
+          <PrivateRoute type="admin">
+            <Layout>
+              <ProductManagePage />
             </Layout>
           </PrivateRoute>
         }
