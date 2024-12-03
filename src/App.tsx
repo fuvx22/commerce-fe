@@ -35,7 +35,7 @@ function App() {
         }
       />
       <Route
-        path="/shop"
+        path="/shop/:search?"
         element={
           <Layout>
             <ProductsPage></ProductsPage>

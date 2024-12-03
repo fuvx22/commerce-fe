@@ -15,7 +15,7 @@ import LoadingButton from "@/components/LoadingButton";
 import { useUpdateCategory } from "@/apis/categoryAPI";
 import { Textarea } from "@/components/ui/textarea";
 import { Category } from "@/types/entity";
-import { useShowToast } from "@/utils/toats";
+import { useShowToast } from "@/utils/toast";
 
 type Props = {
   onSubmit: () => void;

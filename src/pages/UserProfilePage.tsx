@@ -3,7 +3,7 @@ import { Button } from "@/components/ui/button";
 import UserForm, { UserFormData } from "@/components/forms/userForm";
 import { useUpdateUserAPI } from "@/apis/userAPI";
 import EditAvatarDialog from "@/components/EditAvatarDialog";
-import { useShowToast } from "@/utils/toats";
+import { useShowToast } from "@/utils/toast";
 import LoadingPanel from "@/components/LoadingPanel";
 
 const UserProfilePage = () => {

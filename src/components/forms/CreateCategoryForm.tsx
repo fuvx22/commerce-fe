@@ -14,7 +14,7 @@ import {
 import LoadingButton from "@/components/LoadingButton";
 import { useCreateCategory } from "@/apis/categoryAPI";
 import { Textarea } from "@/components/ui/textarea";
-import { useShowToast } from "@/utils/toats";
+import { useShowToast } from "@/utils/toast";
 
 
 type Props = {

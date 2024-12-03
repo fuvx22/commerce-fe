@@ -30,13 +30,13 @@ const CartPage: React.FC = () => {
           <ul className="cart-items flex flex-col gap-2">
             {cart.map((item) => (
               <li
-                key={item._id}
+                key={item.id}
                 className="h-[120px] w-[720px] max-w-full flex border rounded-lg items-center "
               >
                 <div className="w-[120px] h-full overflow-hidden">
                   <img
                     className="max-w-full h-full object-cover m-auto"
-                    src={item.image}
+                    src={item.imageUrl}
                     alt={item.name}
                   />
                 </div>
@@ -51,14 +51,14 @@ const CartPage: React.FC = () => {
                     value={item.quantity}
                     onChange={(e) =>
                       handleQuantityChange(
-                        item._id,
+                        item.id,
                         parseInt(e.target.value, 10)
                       )
                     }
                     className="w-full"
                   />
                   <Button
-                    onClick={() => removeFromCart(item._id)}
+                    onClick={() => removeFromCart(item.id)}
                     variant={"destructive"}
                     className="w-full mt-1"
                   >

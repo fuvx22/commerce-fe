@@ -14,7 +14,7 @@ import EditAvatarForm from "./forms/EditAvatarForm";
 import { useState, useRef } from "react";
 import { useCloudinaryAPI } from "@/apis/cloudinaryAPI";
 import { convertUrlToFile } from "@/utils/utils";
-import { useShowToast } from "@/utils/toats";
+import { useShowToast } from "@/utils/toast";
 import { useUpdateUserAPI } from "@/apis/userAPI";
 import { useAuth } from "@/auth/authContext";
 

@@ -33,7 +33,7 @@ const CategoryManagePage = () => {
   const { getProducts, isLoading, products, productsInfo } = useGetProducts();
   const { deleteProduct } = useDeleteProduct();
   useEffect(() => {
-    getProducts(currentPage, 1);
+    getProducts(currentPage, 12);
   }, [currentPage]);
 
   const handleEditProduct = (product: Product) => () => {
@@ -137,9 +137,9 @@ const CategoryManagePage = () => {
       <Dialog open={createDialogOpen} onOpenChange={setCreateDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Thêm mới danh mục</DialogTitle>
+            <DialogTitle>Thêm mới sản phẩm</DialogTitle>
             <DialogDescription>
-              Điền thông tin vào form dưới đây để thêm mới danh mục
+              Điền thông tin vào form dưới đây để thêm mới sản phẩm
             </DialogDescription>
           </DialogHeader>
           <CreateProductForm
@@ -153,9 +153,9 @@ const CategoryManagePage = () => {
       <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Cập nhật danh mục</DialogTitle>
+            <DialogTitle>Cập nhật sản phẩm</DialogTitle>
             <DialogDescription>
-              Điền thông tin vào form dưới đây để chỉnh sửa danh mục
+              Điền thông tin vào form dưới đây để chỉnh sửa sản phẩm
             </DialogDescription>
           </DialogHeader>
           <EditProductForm

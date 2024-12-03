@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/form";
 import LoadingButton from "@/components/LoadingButton";
 import { Textarea } from "@/components/ui/textarea";
-import { useShowToast } from "@/utils/toats";
+import { useShowToast } from "@/utils/toast";
 import { useUpdateProduct } from "@/apis/productAPI";
 import { useGetCategories } from "@/apis/categoryAPI";
 import {
@@ -75,15 +75,15 @@ const EditProductForm = ({ onSubmit, selectedProduct }: Props) => {
 
     if (res) {
       showToast(
-        "Tạo sản phẩm thành công",
-        "Sản phẩm đã được tạo mới!",
+        "Cập nhật phẩm thành công",
+        "Sản phẩm đã được cập nhật!",
         "success"
       );
       onSubmit();
     } else {
       showToast(
-        "Tạo sản phẩm thất bại",
-        "Đã xảy ra lỗi khi tạo mới sản phẩm!",
+        "Cập nhật phẩm thất bại",
+        "Đã xảy ra lỗi khi cập nhật sản phẩm!",
         "destructive"
       );
     }
@@ -307,7 +307,7 @@ const EditProductForm = ({ onSubmit, selectedProduct }: Props) => {
         {isLoading ? (
           <LoadingButton />
         ) : (
-          <Button type="submit">Thêm mới</Button>
+          <Button type="submit">Cập nhật sản phẩm</Button>
         )}
       </form>
     </Form>

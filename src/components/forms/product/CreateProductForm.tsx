@@ -13,7 +13,7 @@ import {
 } from "@/components/ui/form";
 import LoadingButton from "@/components/LoadingButton";
 import { Textarea } from "@/components/ui/textarea";
-import { useShowToast } from "@/utils/toats";
+import { useShowToast } from "@/utils/toast";
 import { useCreateProduct } from "@/apis/productAPI";
 import { useGetCategories } from "@/apis/categoryAPI";
 import {

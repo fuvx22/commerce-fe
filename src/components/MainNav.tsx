@@ -1,8 +1,9 @@
 import { Link } from "react-router-dom";
 import { useAuth } from "@/auth/authContext";
 import UserDropDownMenu from "@/components/UserDropDownMenu";
-import { ShoppingCart, Search } from "lucide-react";
-import AdminMenuDropdown from "@/components/ui/AdminMenuDropdown";
+import { ShoppingCart } from "lucide-react";
+import AdminMenuDropdown from "@/components/AdminMenuDropdown";
+import SearchSection from "@/components/SearchSection";
 
 const MainNav = () => {
   const { user, isAuthenticated } = useAuth();
@@ -13,9 +14,7 @@ const MainNav = () => {
       <Link to={"/cart"}>
         <ShoppingCart />
       </Link>
-      <Link to={"/search"}>
-        <Search />
-      </Link>
+      <SearchSection />
       <span className="text-slate-400">|</span>
       {isAuthenticated && user?.role === "Admin" && (
         <>

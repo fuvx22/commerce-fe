@@ -36,7 +36,36 @@ export const useGetProducts = () => {
     }
   };
 
-  return { getProducts, isLoading, products, productsInfo };
+  const getProductsByCategory = async (
+    categoryId: string,
+    page: number = 1,
+    limit: number = 12,
+    search: string = "",
+    sort: string = ""
+  ) => {
+    try {
+      setIsLoading(true);
+      const res = await axiosInstance.get(`/api/Products/by-category/${categoryId}`, {
+        params: {
+          page,
+          limit,
+          search,
+          sort,
+        },
+      });
+      setProducts(res.data.data.data);
+      setProductsInfo({
+        page: res.data.data.page,
+        totalPage: res.data.data.totalPage
+      })
+    } catch (error) {
+      console.error("Error fetching Products:", error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return { getProducts, getProductsByCategory, isLoading, products, productsInfo };
 };
 
 export const useCreateProduct = () => {

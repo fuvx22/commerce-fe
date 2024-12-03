@@ -1,15 +1,5 @@
 import ProductsList from "@/components/ProductsList";
-import { Product } from "@/types/entity";
 import { useEffect, useState } from "react";
-import {
-  Pagination,
-  PaginationContent,
-  PaginationEllipsis,
-  PaginationItem,
-  PaginationLink,
-  PaginationNext,
-  PaginationPrevious,
-} from "@/components/ui/pagination";
 import {
   Select,
   SelectValue,
@@ -17,134 +7,119 @@ import {
   SelectContent,
   SelectItem,
 } from "@/components/ui/select";
-import { ArrowDownAZ } from 'lucide-react';
+import { ArrowDownAZ } from "lucide-react";
+import { useGetCategories } from "@/apis/categoryAPI";
+import { useGetProducts } from "@/apis/productAPI";
+import ActionPagination from "@/components/ActionPagination";
+import { Link, useParams } from "react-router-dom";
 
 const ProductsPage = () => {
-  const [products, setProducts] = useState<Product[]>([]);
+  const { search: searchValue } = useParams();
+
+  const [search, setSearch] = useState<string>(searchValue || "");
   const [currentPage, setCurrentPage] = useState<number>(1);
-  const [search, setSearch] = useState<string>("");
   const [category, setCategory] = useState<string>("");
+  const [sort, setSort] = useState<"asc" | "desc">("asc");
+
+  const {
+    getProductsByCategory,
+    getProducts,
+    isLoading,
+    products,
+    productsInfo,
+  } = useGetProducts();
+
+  const { categories, getCategories } = useGetCategories();
 
   useEffect(() => {
-    // Fetch products
-    // mock data products for testing
-    const products = [
-      {
-        id: "1",
-        name: "Product 1",
-        price: 100,
-        description: "Description 1",
-        category: "Category 1",
-        image: "https://cavathanquoc.com/wp-content/uploads/2024/06/Ao-thun-tron-cotton-mau-xanh-than.jpg",
-        discount: 10,
-        stock: 10,
-      },
-      {
-        id: "2",
-        name: "Product 2",
-        price: 200,
-        description: "Description 2",
-        category: "Category 2",
-        image: "https://cavathanquoc.com/wp-content/uploads/2024/06/Ao-thun-tron-cotton-mau-xanh-than.jpg",
-        discount: 20,
-        stock: 20,
-      },
-      {
-        id: "3",
-        name: "Product 3",
-        price: 200,
-        description: "Description 2",
-        category: "Category 2",
-        image: "https://cavathanquoc.com/wp-content/uploads/2024/06/Ao-thun-tron-cotton-mau-xanh-than.jpg",
-        discount: 20,
-        stock: 20,
-      },
-      {
-        id: "4",
-        name: "Product 4",
-        price: 200,
-        description: "Description 2",
-        category: "Category 2",
-        image: "https://cavathanquoc.com/wp-content/uploads/2024/06/Ao-thun-tron-cotton-mau-xanh-than.jpg",
-        discount: 20,
-        stock: 20,
-      },
-      {
-        id: "5",
-        name: "Product 5",
-        price: 200,
-        description: "Description 2",
-        category: "Category 2",
-        image: "https://cavathanquoc.com/wp-content/uploads/2024/06/Ao-thun-tron-cotton-mau-xanh-than.jpg",
-        discount: 20,
-        stock: 20,
-      },
-      {
-        id: "6",
-        name: "Áo khoác nỉ màu đen thời trang",
-        price: 599000,
-        description: "Description 2",
-        category: "Category 2",
-        image: "https://cavathanquoc.com/wp-content/uploads/2024/06/Ao-thun-tron-cotton-mau-xanh-than.jpg",
-        discount: 20,
-        stock: 20,
-      },
-    ];
-    setProducts(products);
-  }, [currentPage, search, category]);
+    const fetch = async () => {
+      await getCategories();
+      if (category !== "all" && category !== "") {
+        await getProductsByCategory(category, 1, 12, searchValue, sort);
+      } else {
+        await getProducts(1, 12, searchValue, sort);
+      }
+    };
+
+    if (searchValue) {
+      setSearch(searchValue);
+    }
+
+    fetch();
+  }, [searchValue, category, sort]);
+
+  console.log("rerender");
+
+  const handleChangePage = async (page: number) => {
+    setCurrentPage(page);
+    if (category !== "all" && category !== "") {
+      await getProductsByCategory(category, page, 12, search, sort);
+    } else {
+      await getProducts(page, 12, search, sort);
+    }
+  };
 
   return (
     <div className="p-2 max-w-screen-xl mx-auto flex flex-col space-y-2">
       <div className="controller flex justify-between gap-2">
-        <Select>
+        <Select
+          value={category}
+          onValueChange={(value) => setCategory(value as string)}
+        >
           <SelectTrigger className="md:w-[240px]">
             <SelectValue placeholder="Danh mục" />
           </SelectTrigger>
           <SelectContent>
-            <SelectItem value="1">Danh mục 1</SelectItem>
-            <SelectItem value="2">Danh mục 2</SelectItem>
-            <SelectItem value="3">Danh mục 3</SelectItem>
+            <SelectItem value="all">Tất cả</SelectItem>
+            {categories.map((category) => (
+              <SelectItem key={category.id} value={category.id}>
+                {category.name}
+              </SelectItem>
+            ))}
           </SelectContent>
         </Select>
-          <Select>
-            <SelectTrigger className="md:w-[240px]">
-              <SelectValue placeholder="Sắp xếp theo" />
-              <ArrowDownAZ size={24} className="ml-auto" />
-            </SelectTrigger>
-            <SelectContent>
-              <SelectItem value="3">Bán chạy</SelectItem>
-              <SelectItem value="1">Giá từ thấp đến cao</SelectItem>
-              <SelectItem value="2">Giá từ cao đến thấp</SelectItem>
-            </SelectContent>
-          </Select>
+        <Select
+          value={sort}
+          onValueChange={(value) => setSort(value as "asc" | "desc")}
+        >
+          <SelectTrigger className="md:w-[240px]">
+            <SelectValue placeholder="Sắp xếp theo" />
+            <ArrowDownAZ size={24} className="ml-auto" />
+          </SelectTrigger>
+          <SelectContent>
+            {/* <SelectItem value="3">Bán chạy</SelectItem> */}
+            {/* <SelectItem value="1">Giá từ thấp đến cao</SelectItem>
+            <SelectItem value="2">Giá từ cao đến thấp</SelectItem> */}
+            <SelectItem value="asc">Từ A đến Z</SelectItem>
+            <SelectItem value="desc">Từ Z đến A</SelectItem>
+          </SelectContent>
+        </Select>
+      </div>
+      {!!search && (
+        <div>
+          <span className="text-lg font-semibold my-1">
+            Kết quả tìm kiếm cho: "{search}"
+          </span>
+          <button>
+            <Link
+            to={`/shop`} 
+            onClick={() => setSearch("")}
+            className="text-blue-600 underline text-sm ml-2"
+            >
+              xóa tìm kiếm{" "}
+            </Link>
+          </button>
+        </div>
+      )}
+      <div className="min-h-[560px]">
+        <ProductsList products={products} />
       </div>
 
-      <ProductsList products={products} />
-
-      <Pagination className="mt-2">
-        <PaginationContent>
-          <PaginationItem>
-            <PaginationPrevious href="#" />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">1</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#" isActive>
-              2
-            </PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationLink href="#">3</PaginationLink>
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationEllipsis />
-          </PaginationItem>
-          <PaginationItem>
-            <PaginationNext href="#" />
-          </PaginationItem>
-        </PaginationContent>
-      </Pagination>
+      <ActionPagination
+        currentPage={currentPage}
+        onPageChange={handleChangePage}
+        totalPage={productsInfo?.totalPage || 1}
+      />
     </div>
   );
 };
