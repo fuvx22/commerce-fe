@@ -46,12 +46,16 @@ type Props = {
   isLoading: boolean;
   title?: string;
   buttonText?: string;
-  response?: any; 
+  response?: any;
 };
 
-
-const RegisterForm = ({ onSubmit, isLoading, title, buttonText, response }: Props) => {
-
+const RegisterForm = ({
+  onSubmit,
+  isLoading,
+  title,
+  buttonText,
+  response,
+}: Props) => {
   const [message, setMessage] = useState<string | null>(null);
   const [error, setError] = useState<string | null>(null);
 
@@ -59,14 +63,11 @@ const RegisterForm = ({ onSubmit, isLoading, title, buttonText, response }: Prop
     if (response && response.statusCode === 200) {
       setMessage("Đăng ký thành công");
       setError(null);
-    } else 
-    if (response && response.status === 400) {
+    } else if (response && response.status === 400) {
       setError("Email đã tồn tại!");
       setMessage(null);
     }
-  }
-  , [response]);
-
+  }, [response]);
 
   const form = useForm<RegisterFormData>({
     resolver: zodResolver(formSchema),
@@ -86,7 +87,7 @@ const RegisterForm = ({ onSubmit, isLoading, title, buttonText, response }: Prop
               <FormItem className="flex-1">
                 <FormLabel>Họ</FormLabel>
                 <FormControl>
-                  <Input {...field} placeholder="họ của bạn"/>
+                  <Input {...field} placeholder="họ của bạn" />
                 </FormControl>
                 <FormMessage />
               </FormItem>
@@ -160,7 +161,7 @@ const RegisterForm = ({ onSubmit, isLoading, title, buttonText, response }: Prop
           control={form.control}
           name="gender"
           render={({ field }) => (
-            <FormItem >
+            <FormItem>
               <FormLabel>Giới tính</FormLabel>
               <Select onValueChange={field.onChange} defaultValue={field.value}>
                 <FormControl className="bg-white">
@@ -188,13 +189,22 @@ const RegisterForm = ({ onSubmit, isLoading, title, buttonText, response }: Prop
             {buttonText}
           </Button>
         )}
-        <h4 className="text-center">
-          Đã có tài khoản?
-          <a href="/login" className="text-blue-500">
-            {" "}
-            Đăng nhập ngay
-          </a>
-        </h4>
+        <div className="text-sm space-y-1">
+          <h4 className="text-center">
+            Đã có tài khoản?
+            <a href="/login" className="text-blue-500">
+              {" "}
+              Đăng nhập ngay
+            </a>
+          </h4>
+          <h4 className="text-center">
+            Quên mật khẩu?
+            <a href="/submit-mail" className="text-blue-500">
+              {" "}
+              Khôi phục mật khẩu
+            </a>
+          </h4>
+        </div>
       </form>
     </Form>
   );

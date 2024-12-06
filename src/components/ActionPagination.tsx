@@ -42,7 +42,7 @@ const ActionPagination = ({ currentPage, totalPage, onPageChange }: Props) => {
         )}
         <PaginationItem>
           <PaginationLink
-            className="bg-emerald-400 text-white"
+            isActive
             onClick={() => onPageChange(currentPage)}
           >
             {currentPage}

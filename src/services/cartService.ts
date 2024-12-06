@@ -50,7 +50,12 @@ const clearCart = (): void => {
 };
 
 const getCartTotal = (): number => {
-  return getCart().reduce((total, item) => total + item.price * item.quantity, 0);
+  return getCart().reduce((total, item) => {
+    if (item.discount) {
+      item.price = item.price - (item.discount*item.price/100);
+    }
+    return total + item.price * item.quantity;
+  }, 0);
 };
 
 export const cartService = {

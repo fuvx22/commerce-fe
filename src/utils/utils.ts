@@ -9,3 +9,10 @@ export const convertUrlToFile = async (url: string, fileType: string) => {
 export const calculateDiscountPrice = (price: number, discount: number) => {
   return price - (price * discount) / 100;
 };
+
+export const formatPrice = (price: number) => {
+  return new Intl.NumberFormat("vi-VN", {
+    style: "currency",
+    currency: "VND",
+  }).format(price);
+};

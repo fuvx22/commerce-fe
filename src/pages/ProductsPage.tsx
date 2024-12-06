@@ -12,6 +12,7 @@ import { useGetCategories } from "@/apis/categoryAPI";
 import { useGetProducts } from "@/apis/productAPI";
 import ActionPagination from "@/components/ActionPagination";
 import { Link, useParams } from "react-router-dom";
+import LoadingPanel from "@/components/LoadingPanel";
 
 const ProductsPage = () => {
   const { search: searchValue } = useParams();
@@ -47,8 +48,6 @@ const ProductsPage = () => {
 
     fetch();
   }, [searchValue, category, sort]);
-
-  console.log("rerender");
 
   const handleChangePage = async (page: number) => {
     setCurrentPage(page);
@@ -102,9 +101,9 @@ const ProductsPage = () => {
           </span>
           <button>
             <Link
-            to={`/shop`} 
-            onClick={() => setSearch("")}
-            className="text-blue-600 underline text-sm ml-2"
+              to={`/shop`}
+              onClick={() => setSearch("")}
+              className="text-blue-600 underline text-sm ml-2"
             >
               xóa tìm kiếm{" "}
             </Link>
@@ -112,7 +111,7 @@ const ProductsPage = () => {
         </div>
       )}
       <div className="min-h-[560px]">
-        <ProductsList products={products} />
+        {isLoading ? <LoadingPanel /> : <ProductsList products={products} />}
       </div>
 
       <ActionPagination

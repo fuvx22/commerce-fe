@@ -1,6 +1,7 @@
 import { Routes, Route, Navigate } from "react-router-dom";
 import Layout from "@/layouts/layout";
 import { PrivateRoute } from "@/components/PrivateRoute";
+import LoadingPanel from "@/components/LoadingPanel";
 import LoginPage from "@/pages/LoginPage";
 import RegisterPage from "@/pages/RegisterPage";
 import UserProfilePage from "@/pages/UserProfilePage";
@@ -8,12 +9,17 @@ import ProductsPage from "@/pages/ProductsPage";
 import CartPage from "@/pages/CartPage";
 import CategoryManagePage from "@/pages/CategoryManagePage";
 import ProductManagePage from "@/pages/ProductManagePage";
-import LoadingPanel from "@/components/LoadingPanel";
+import SubmitMailPage from "@/pages/SubmitMailPage";
+import ResetPasswordPage from "@/pages/ResetPasswordPage";
+import NotFoundPage from "@/pages/NotFoundPage";
 
 function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout>Home page</Layout>} />
+      <Route path="/404" element={<Layout>
+        <NotFoundPage />
+      </Layout>} />
       <Route
         path="/login"
         element={
@@ -30,6 +36,26 @@ function App() {
           <PrivateRoute type="guest">
             <Layout>
               <RegisterPage />
+            </Layout>
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/submit-mail"
+        element={
+          <PrivateRoute type="guest">
+            <Layout>
+              <SubmitMailPage />
+            </Layout>
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/reset-password"
+        element={
+          <PrivateRoute type="guest">
+            <Layout>
+              <ResetPasswordPage />
             </Layout>
           </PrivateRoute>
         }
@@ -90,7 +116,7 @@ function App() {
         }
       />
 
-      <Route path="*" element={<Navigate to="/" />} />
+      <Route path="*" element={<Navigate to="/404" />} />
     </Routes>
   );
 }

@@ -4,7 +4,7 @@ import { User } from "@/types/auth";
 import axios from "axios";
 import { useState } from "react";
 import { refreshToken } from "@/apis/axiosInstance";
-
+import axiosInstance from "@/apis/axiosInstance";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
 const defaultAvatarUrl = import.meta.env.VITE_DEFAULT_AVATAR_URL;
@@ -87,4 +87,93 @@ const autoLogin = async () => {
   }
 };
 
-export { useRegisterAPI, useLoginAPI, autoLogin, getUserInfo };
+const usePasswordAPI = () => {
+  const [isLoading, setIsLoading] = useState(false);
+  const [response, setResponse] = useState<unknown>(null);
+
+  const changePassword = async (data: {
+    oldPassword: string;
+    newPassword: string;
+  }) => {
+    setIsLoading(true);
+    try {
+      const response = await axiosInstance.put(
+        `/api/Users/change-password`,
+        data
+      );
+      return response.data;
+    } catch (error) {
+      if (axios.isAxiosError(error) && error.response) {
+        return error.response.data;
+      }
+      throw error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const sendResetPasswordEmail = async (data: { email: string }) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        `${BACKEND_URL}/api/Users/forgot-password`,
+        data
+      );
+      setResponse(response.data);
+    } catch (error) {
+      setResponse(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const verifyResetPasswordToken = async (data: {
+    email: string;
+    token: string;
+  }) => {
+    setIsLoading(true);
+    let res: any;
+    try {
+      const response = await axios.post(
+        `${BACKEND_URL}/api/Users/verify-token`,
+        data
+      );
+      res = response.data;
+    } catch (error) {
+      res = error;
+    } finally {
+      setIsLoading(false);
+    }
+    return res;
+  };
+
+  const resetPassword = async (data: {
+    email: string;
+    password: string;
+    token: string;
+  }) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        `${BACKEND_URL}/api/Users/reset-password`,
+        data
+      );
+      setResponse(response.data);
+    } catch (error) {
+      setResponse(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return {
+    isLoading,
+    response,
+    changePassword,
+    sendResetPasswordEmail,
+    verifyResetPasswordToken,
+    resetPassword,
+  };
+};
+
+export { useRegisterAPI, useLoginAPI, autoLogin, getUserInfo, usePasswordAPI };

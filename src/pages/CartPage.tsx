@@ -11,6 +11,7 @@ import {
   CardHeader,
   CardTitle,
 } from "@/components/ui/card";
+import { calculateDiscountPrice, formatPrice } from "@/utils/utils";
 
 const CartPage: React.FC = () => {
   const { cart, removeFromCart, updateCartItem, clearCart, getCartTotal } =
@@ -26,23 +27,36 @@ const CartPage: React.FC = () => {
       {cart.length === 0 ? (
         <p>Giỏ hàng của bạn đang trống.</p>
       ) : (
-        <div className="flex flex-col md:flex-row gap-2 md:gap-8 justify-center">
+        <div className="flex flex-col sm:flex-row gap-2 md:gap-8 justify-center">
           <ul className="cart-items flex flex-col gap-2">
             {cart.map((item) => (
               <li
                 key={item.id}
-                className="h-[120px] w-[720px] max-w-full flex border rounded-lg items-center "
+                className="h-[120px] w-[720px] max-w-full flex border rounded-lg items-center overflow-hidden"
               >
-                <div className="w-[120px] h-full overflow-hidden">
+                <div className="w-[120px] h-full">
                   <img
                     className="max-w-full h-full object-cover m-auto"
                     src={item.imageUrl}
                     alt={item.name}
                   />
                 </div>
-                <div className="cart-item-details flex-1 p-2">
-                  <p className="text-xl font-bold">{item.name}</p>
-                  <p> {item.price.toFixed(2)} VNĐ</p>
+                <div className="flex-1 self-start p-4">
+                  <p className="text-xl">{item.name}</p>
+                  {item.discount ? (
+                    <span>
+                      <p className="line-through text-gray-500 text-sm">
+                        {formatPrice(item.price)}
+                      </p>
+                      <p>
+                        {formatPrice(
+                          calculateDiscountPrice(item.price, item.discount)
+                        )}
+                      </p>
+                    </span>
+                  ) : (
+                    <p> {formatPrice(item.price)} </p>
+                  )}
                 </div>
                 <div className="w-[60px] mr-2">
                   <Input
@@ -73,9 +87,7 @@ const CartPage: React.FC = () => {
               <CardTitle className="text-xl">Thanh toán</CardTitle>
             </CardHeader>
             <CardContent>
-              <h2 className="font-bold">
-                Tổng: {getCartTotal().toFixed(0)} VNĐ
-              </h2>
+              <h2 className="font-bold">Tổng: {formatPrice(getCartTotal())}</h2>
             </CardContent>
             <CardFooter>
               <div className="flex gap-1">

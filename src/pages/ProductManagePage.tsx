@@ -18,6 +18,7 @@ import {
   DialogDescription,
 } from "@/components/ui/dialog";
 import { useDeleteProduct, useGetProducts } from "@/apis/productAPI";
+import { useGetCategories } from "@/apis/categoryAPI";
 import CreateProductForm from "@/components/forms/product/CreateProductForm";
 import LoadingPanel from "@/components/LoadingPanel";
 import ConfirmDialog from "@/components/ConfirmDialog";
@@ -31,8 +32,10 @@ const CategoryManagePage = () => {
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
   const { getProducts, isLoading, products, productsInfo } = useGetProducts();
+  const { getCategories, categories } = useGetCategories();
   const { deleteProduct } = useDeleteProduct();
   useEffect(() => {
+    getCategories();
     getProducts(currentPage, 12);
   }, [currentPage]);
 
@@ -79,8 +82,8 @@ const CategoryManagePage = () => {
                   <TableHead>Hình ảnh</TableHead>
                   <TableHead>Giảm giá</TableHead>
                   <TableHead>Tồn kho</TableHead>
-                  <TableHead>Nhà cung cấp</TableHead>
-                  <TableHead>Thao tác</TableHead>
+                  {/* <TableHead>Nhà cung cấp</TableHead> */}
+                  {/* <TableHead>Thao tác</TableHead> */}
                 </TableRow>
               </TableHeader>
               <TableBody>
@@ -90,8 +93,16 @@ const CategoryManagePage = () => {
                     <TableCell>{product.name}</TableCell>
                     <TableCell>{product.productNameAlias}</TableCell>
                     <TableCell>{product.price}</TableCell>
-                    <TableCell>{product.description}</TableCell>
-                    <TableCell>{product.categoryId}</TableCell>
+                    <TableCell className="whitespace-nowrap overflow-ellipsis overflow-hidden max-w-[200px]">
+                      {product.description}
+                    </TableCell>
+                    <TableCell>
+                      {categories.find(
+                        (category) => category.id === product.categoryId
+                      )?.name ?? (
+                        <span className="text-red-500">Không xác định</span>
+                      )}
+                    </TableCell>
                     <TableCell>{product.productDate}</TableCell>
                     <TableCell>
                       <img

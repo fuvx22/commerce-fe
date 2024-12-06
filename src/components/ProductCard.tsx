@@ -3,25 +3,27 @@ import { Card, CardContent, CardTitle } from "@/components/ui/card";
 import { Product } from "@/types/entity";
 import { useCart } from "@/contexts/CartContext";
 import { AspectRatio } from "@radix-ui/react-aspect-ratio";
-import { calculateDiscountPrice } from "@/utils/utils";
+import { calculateDiscountPrice, formatPrice } from "@/utils/utils";
 
-const ProductCard = (product: Product) => {
+type Props = {
+  product: Product;
+  onSelected?: (product: Product) => void;
+};
+
+const ProductCard = ({ product, onSelected }: Props) => {
   const { addToCart } = useCart();
 
   const handleAddToCart = () => {
     addToCart(product, 1);
   };
 
-  const formatPrice = (price: number) => {
-    return new Intl.NumberFormat("vi-VN", {
-      style: "currency",
-      currency: "VND",
-    }).format(price);
-  };
-
   return (
     <Card className="overflow-hidden">
-      <AspectRatio ratio={1} className="overflow-hidden">
+      <AspectRatio
+        ratio={1}
+        className="overflow-hidden cursor-pointer"
+        onClick={() => onSelected && onSelected(product)}
+      >
         {!!product.discount && (
           <div
             className="absolute top-1 right-0 bg-red-500 text-white py-1 px-2 font-semibold
@@ -41,15 +43,19 @@ const ProductCard = (product: Product) => {
         <CardTitle className="text-center">{product.name}</CardTitle>
         {product.discount ? (
           <div className="text-center">
-            <span className="line-through mr-2 text-sm text-red-600">
+            <p className="line-through mr-2 text-sm text-red-600">
               {formatPrice(product.price)}
-            </span>
-            {formatPrice(
-              calculateDiscountPrice(product.price, product.discount)
-            )}
+            </p>
+            <p>
+              {formatPrice(
+                calculateDiscountPrice(product.price, product.discount)
+              )}
+            </p>
           </div>
         ) : (
-          <div className="text-center">{formatPrice(product.price)}</div>
+          <div className="text-center">
+            <p className="pt-4">{formatPrice(product.price)}</p>
+          </div>
         )}
 
         <div className="flex justify-center">

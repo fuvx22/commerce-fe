@@ -1,8 +1,9 @@
 // src/contexts/CartContext.tsx
 
-import React, { createContext, useContext, useEffect, useState } from 'react';
-import { CartItem, Product } from '@/types/entity';
-import { cartService } from '@/services/cartService';
+import React, { createContext, useContext, useEffect, useState } from "react";
+import { CartItem, Product } from "@/types/entity";
+import { cartService } from "@/services/cartService";
+import { useShowToast } from "@/utils/toast";
 
 interface CartContextProps {
   cart: CartItem[];
@@ -15,8 +16,11 @@ interface CartContextProps {
 
 const CartContext = createContext<CartContextProps | undefined>(undefined);
 
-export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children }) => {
+export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
+  children,
+}) => {
   const [cart, setCart] = useState<CartItem[]>([]);
+  const { showToast } = useShowToast();
 
   useEffect(() => {
     setCart(cartService.getCart());
@@ -25,6 +29,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   const add = (product: Product, quantity: number = 1) => {
     cartService.addToCart(product, quantity);
     setCart([...cartService.getCart()]);
+    showToast(product.name, "Thêm sản phẩm vào giỏ hàng thành công!", "success");
   };
 
   const remove = (productId: string) => {
@@ -47,7 +52,16 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
   };
 
   return (
-    <CartContext.Provider value={{ cart, addToCart: add, removeFromCart: remove, updateCartItem: update, clearCart: clear, getCartTotal: getTotal }}>
+    <CartContext.Provider
+      value={{
+        cart,
+        addToCart: add,
+        removeFromCart: remove,
+        updateCartItem: update,
+        clearCart: clear,
+        getCartTotal: getTotal,
+      }}
+    >
       {children}
     </CartContext.Provider>
   );
@@ -56,7 +70,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({ children
 export const useCart = (): CartContextProps => {
   const context = useContext(CartContext);
   if (!context) {
-    throw new Error('useCart phải được sử dụng bên trong CartProvider');
+    throw new Error("useCart phải được sử dụng bên trong CartProvider");
   }
   return context;
 };
