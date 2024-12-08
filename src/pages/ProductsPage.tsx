@@ -89,8 +89,8 @@ const ProductsPage = () => {
             {/* <SelectItem value="3">Bán chạy</SelectItem> */}
             {/* <SelectItem value="1">Giá từ thấp đến cao</SelectItem>
             <SelectItem value="2">Giá từ cao đến thấp</SelectItem> */}
-            <SelectItem value="asc">Từ A đến Z</SelectItem>
-            <SelectItem value="desc">Từ Z đến A</SelectItem>
+            <SelectItem value="asc">Giá từ thấp đến cao</SelectItem>
+            <SelectItem value="desc">Giá từ cao đến thấp</SelectItem>
           </SelectContent>
         </Select>
       </div>

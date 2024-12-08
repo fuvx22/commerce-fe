@@ -22,6 +22,7 @@ const ConfirmDialog = ({
 }: Props) => {
   const handleConfirm = () => {
     onConfirm();
+    onCancel();
   };
 
   return (

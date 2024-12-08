@@ -65,6 +65,8 @@ const SingularProductDialog = ({ product, open, onClose, onAddToCart }: Props) =
                   onChange={(e) => setQuantity(+e.target.value)}
                   className="basis-16"
                   type="number"
+                  max={99}
+                  min={1}
                   defaultValue={1}
                 />
                 <Button

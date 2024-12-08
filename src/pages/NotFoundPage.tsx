@@ -3,9 +3,10 @@ import { Link } from "react-router-dom";
 const NotFoundPage = () => {
   return (
     <>
+    {/* bg-[url('https://res.cloudinary.com/mern-odering-app-3457/image/upload/c_fill,w_150,h_200,ar_3:4/v1732896103/otcsngz5qxavlaxqt8om.jpg')] */}
       <div
         className="
-    bg-[url('https://res.cloudinary.com/mern-odering-app-3457/image/upload/c_fill,w_150,h_200,ar_3:4/v1732896103/otcsngz5qxavlaxqt8om.jpg')]
+    bg-gray-100
     bg-repeat 
     bg-center
     opacity-50

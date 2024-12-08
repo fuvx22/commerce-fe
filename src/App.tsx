@@ -17,9 +17,14 @@ function App() {
   return (
     <Routes>
       <Route path="/" element={<Layout>Home page</Layout>} />
-      <Route path="/404" element={<Layout>
-        <NotFoundPage />
-      </Layout>} />
+      <Route
+        path="/404"
+        element={
+          <Layout>
+            <NotFoundPage />
+          </Layout>
+        }
+      />
       <Route
         path="/login"
         element={

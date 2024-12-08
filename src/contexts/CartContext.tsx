@@ -9,7 +9,7 @@ interface CartContextProps {
   cart: CartItem[];
   addToCart: (product: Product, quantity?: number) => void;
   removeFromCart: (productId: string) => void;
-  updateCartItem: (productId: string, quantity: number) => void;
+  updateCartItem: (productId: string, quantity: number, stock: number) => void;
   clearCart: () => void;
   getCartTotal: () => number;
 }
@@ -27,7 +27,15 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
   }, []);
 
   const add = (product: Product, quantity: number = 1) => {
-    cartService.addToCart(product, quantity);
+    if (quantity > product.views) {
+      showToast(
+        `Không thể thêm ${product.name} vào giỏ hàng`,
+        `Số lượng sản phẩm không đủ, chỉ còn ${product.views} sản phẩm`,
+        "destructive"
+      );
+      return;
+    }
+    cartService.addToCart(product, quantity, product.views);
     setCart([...cartService.getCart()]);
     showToast(product.name, "Thêm sản phẩm vào giỏ hàng thành công!", "success");
   };
@@ -37,7 +45,15 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     setCart([...cartService.getCart()]);
   };
 
-  const update = (productId: string, quantity: number) => {
+  const update = (productId: string, quantity: number, stock: number) => {
+    if (quantity > stock) {
+      showToast(
+        "Cập nhật giỏ hàng thất bại",
+        `Số lượng sản phẩm không đủ, chỉ còn ${stock} sản phẩm`,
+        "destructive"
+      );
+      return;
+    }
     cartService.updateCartItem(productId, quantity);
     setCart([...cartService.getCart()]);
   };
