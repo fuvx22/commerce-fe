@@ -23,10 +23,12 @@ import LoadingPanel from "@/components/LoadingPanel";
 import { useShowToast } from "@/utils/toast";
 import OrderForm, { OrderFormData } from "@/components/forms/OrderForm";
 import LoadingButton from "@/components/LoadingButton";
+import { useAuth } from "@/auth/authContext";
 
 const CartPage: React.FC = () => {
   const { cart, removeFromCart, updateCartItem, clearCart, getCartTotal } =
     useCart();
+  const { isAuthenticated } = useAuth();
   const { checkoutInvoice, isLoading } = useCheckoutInvoice();
   const { orderInvoice, isLoading: isOdering } = useOrderInvoice();
   const { showToast } = useShowToast();
@@ -112,12 +114,12 @@ const CartPage: React.FC = () => {
           {cart.length === 0 ? (
             <p>Giỏ hàng của bạn đang trống.</p>
           ) : (
-            <div className="flex flex-col sm:flex-row gap-2 md:gap-8">
-              <ul className="cart-items flex flex-col gap-2">
+            <div className="flex flex-col sm:flex-row gap-2 md:gap-6">
+              <ul className="cart-items flex flex-col gap-2 flex-1">
                 {cart.map((item) => (
                   <li
                     key={item.id}
-                    className="h-[120px] w-[720px] max-w-full flex border rounded-lg items-center overflow-hidden"
+                    className="h-[120px] flex border rounded-lg items-center overflow-hidden"
                   >
                     <div className="w-[120px] h-full">
                       <img
@@ -169,7 +171,7 @@ const CartPage: React.FC = () => {
                   </li>
                 ))}
               </ul>
-              <Card className="p-6 h-fit">
+              <Card className="h-fit p-2">
                 <CardHeader>
                   <CardTitle className="text-2xl">Checkout</CardTitle>
                 </CardHeader>
@@ -190,10 +192,18 @@ const CartPage: React.FC = () => {
                     <Button
                       onClick={handleCheckout}
                       className="bg-emerald-600 hover:bg-emerald-500"
+                      disabled={!isAuthenticated}
                     >
                       Checkout ngay
                     </Button>
                   </div>
+                </CardFooter>
+                <CardFooter>
+                  {!isAuthenticated && (
+                    <p className="text-red-500">
+                      Đăng nhập để tiếp tục thanh toán
+                    </p>
+                  )}
                 </CardFooter>
               </Card>
             </div>

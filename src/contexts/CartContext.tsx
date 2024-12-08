@@ -30,7 +30,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     if (quantity > product.views) {
       showToast(
         `Không thể thêm ${product.name} vào giỏ hàng`,
-        `Số lượng sản phẩm không đủ, chỉ còn ${product.views} sản phẩm`,
+        `Số lượng sản phẩm không đủ, còn ${product.views} sản phẩm`,
         "destructive"
       );
       return;
@@ -49,7 +49,7 @@ export const CartProvider: React.FC<{ children: React.ReactNode }> = ({
     if (quantity > stock) {
       showToast(
         "Cập nhật giỏ hàng thất bại",
-        `Số lượng sản phẩm không đủ, chỉ còn ${stock} sản phẩm`,
+        `Số lượng sản phẩm không đủ, còn ${stock} sản phẩm`,
         "destructive"
       );
       return;
