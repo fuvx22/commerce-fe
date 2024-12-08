@@ -24,10 +24,12 @@ import { useShowToast } from "@/utils/toast";
 import OrderForm, { OrderFormData } from "@/components/forms/OrderForm";
 import LoadingButton from "@/components/LoadingButton";
 import { useAuth } from "@/auth/authContext";
+import { useNavigate } from "react-router-dom";
 
 const CartPage: React.FC = () => {
   const { cart, removeFromCart, updateCartItem, clearCart, getCartTotal } =
     useCart();
+  const navigate = useNavigate();
   const { isAuthenticated } = useAuth();
   const { checkoutInvoice, isLoading } = useCheckoutInvoice();
   const { orderInvoice, isLoading: isOdering } = useOrderInvoice();
@@ -86,6 +88,7 @@ const CartPage: React.FC = () => {
 
       if (res) {
         showToast("Đặt hàng thành công!", "Cảm ơn bạn đã mua hàng", "success");
+        setChangeTab("feedback");
         clearCart();
       } else {
         showToast(
@@ -257,6 +260,26 @@ const CartPage: React.FC = () => {
           ) : (
             <p>Không có đơn hàng nào</p>
           )}
+        </TabsContent>
+        <TabsContent value="feedback">
+          <div className="flex flex-col mx-auto md:w-[350px] mt-16 text-center gap-4">
+            <h1 className="text-2xl font-bold">Đặt hàng thành công!</h1>
+            <p>
+              Đơn hàng của bạn đã được ghi nhận. Đơn hàng của bạn sẽ được tiến
+              hành xủa lí
+            </p>
+            <p className="text-xl">Cảm ơn bạn đã mua hàng</p>
+
+            <Button
+              onClick={() => {
+                navigate("/");
+              }
+              }
+              className="bg-emerald-600 hover:bg-emerald-500"
+            >
+              Trở về trang chủ
+            </Button>
+          </div>
         </TabsContent>
       </Tabs>
     </div>

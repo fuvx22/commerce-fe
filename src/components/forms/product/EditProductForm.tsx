@@ -39,11 +39,11 @@ const formSchema = z
     productNameAlias: z.string().min(1, "Tên bí danh không được để trống"),
     categoryId: z.string().min(1, "Vui lòng chọn danh mục"),
     price: z.coerce.number().gte(1, "Không được bỏ trống giá"),
-    imageUrl: z.string().optional(),
+    imageUrl: z.any().optional(),
     imageFile: z
       .instanceof(File, { message: "Hình ảnh là bắt buộc" })
       .optional(),
-    productDate: z.string().optional(),
+    productDate: z.any().optional(),
     discount: z.coerce.number().gte(0, "Khoảng giảm giá không hợp lệ"),
     views: z.coerce.number().optional(),
     description: z.string().min(1, "Mô tả không được để trống"),

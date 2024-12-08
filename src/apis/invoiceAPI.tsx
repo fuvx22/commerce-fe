@@ -49,7 +49,7 @@ export const useOrderInvoice = () => {
     try {
       setIsLoading(true);
       const res = await axiosInstance.post(`/api/Invoice/order`, orderData);
-      return res.data.data;
+      return res.data;
     } catch (error) {
       console.error("Error ordering invoice:", error);
       return null;
