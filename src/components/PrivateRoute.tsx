@@ -26,5 +26,9 @@ export const PrivateRoute = ({ children, type }: Props) => {
     return <Navigate to="/login" />;
   }
 
+  if (!type && isAuthenticated && user?.role !== "Admin" && !user?.isVerify) {
+    return <Navigate to="/verify-email" />;
+  }
+
   return <>{children}</>;
 };

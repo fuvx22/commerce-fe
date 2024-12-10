@@ -17,7 +17,6 @@ function useRegisterAPI() {
     setIsLoading(true);
     try {
       const { passwordConfirmation, ...rest } = data; // eslint-disable-line @typescript-eslint/no-unused-vars
-      // new commit
       const response = await axios.post(`${BACKEND_URL}/api/Users/register`, {
         ...rest,
         url: defaultAvatarUrl,
@@ -176,4 +175,44 @@ const usePasswordAPI = () => {
   };
 };
 
-export { useRegisterAPI, useLoginAPI, autoLogin, getUserInfo, usePasswordAPI };
+const useVerifyEmailAPI = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const sendVerifyEmail = async () => {
+    setIsLoading(true);
+    try {
+      const response = await axiosInstance.get(`/api/Users/verify-email`);
+      return response.data;
+    } catch (error) {
+      return error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const verifyEmail = async (token: string, email: string) => {
+    setIsLoading(true);
+    try {
+      const response = await axios.post(
+        `${BACKEND_URL}/api/Users/verify-token`,
+        { token, email, verifyEmail: "True" }
+      );
+      return response.data;
+    } catch (error) {
+      return error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return { isLoading, sendVerifyEmail, verifyEmail };
+};
+
+export {
+  useRegisterAPI,
+  useLoginAPI,
+  autoLogin,
+  getUserInfo,
+  usePasswordAPI,
+  useVerifyEmailAPI,
+};

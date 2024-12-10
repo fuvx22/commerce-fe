@@ -24,13 +24,13 @@ import { useShowToast } from "@/utils/toast";
 import OrderForm, { OrderFormData } from "@/components/forms/OrderForm";
 import LoadingButton from "@/components/LoadingButton";
 import { useAuth } from "@/auth/authContext";
-import { useNavigate } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 const CartPage: React.FC = () => {
   const { cart, removeFromCart, updateCartItem, clearCart, getCartTotal } =
     useCart();
   const navigate = useNavigate();
-  const { isAuthenticated } = useAuth();
+  const { isAuthenticated, user } = useAuth();
   const { checkoutInvoice, isLoading } = useCheckoutInvoice();
   const { orderInvoice, isLoading: isOdering } = useOrderInvoice();
   const { showToast } = useShowToast();
@@ -174,7 +174,7 @@ const CartPage: React.FC = () => {
                   </li>
                 ))}
               </ul>
-              <Card className="h-fit p-2">
+              <Card className="h-fit p-2 max-w-[320px]">
                 <CardHeader>
                   <CardTitle className="text-2xl">Checkout</CardTitle>
                 </CardHeader>
@@ -195,7 +195,7 @@ const CartPage: React.FC = () => {
                     <Button
                       onClick={handleCheckout}
                       className="bg-emerald-600 hover:bg-emerald-500"
-                      disabled={!isAuthenticated}
+                      disabled={!isAuthenticated || !user?.isVerify}
                     >
                       Checkout ngay
                     </Button>
@@ -205,6 +205,14 @@ const CartPage: React.FC = () => {
                   {!isAuthenticated && (
                     <p className="text-red-500">
                       Đăng nhập để tiếp tục thanh toán
+                    </p>
+                  )}
+                  {isAuthenticated && !user?.isVerify && (
+                    <p className="text-red-500">
+                      Vui lòng xác minh tài khoản để tiếp tục thanh toán.{" "}
+                      <Link className="underline" to={"/verify"}>
+                        Xác thực tại đây
+                      </Link>
                     </p>
                   )}
                 </CardFooter>
@@ -266,15 +274,14 @@ const CartPage: React.FC = () => {
             <h1 className="text-2xl font-bold">Đặt hàng thành công!</h1>
             <p>
               Đơn hàng của bạn đã được ghi nhận. Đơn hàng của bạn sẽ được tiến
-              hành xủa lí
+              hành xử lí
             </p>
             <p className="text-xl">Cảm ơn bạn đã mua hàng</p>
 
             <Button
               onClick={() => {
                 navigate("/");
-              }
-              }
+              }}
               className="bg-emerald-600 hover:bg-emerald-500"
             >
               Trở về trang chủ

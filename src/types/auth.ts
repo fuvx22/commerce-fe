@@ -8,6 +8,7 @@ export interface User {
   imageUrl: string | null;
   phone: string | null;
   role: string;
+  isVerify: boolean;
 }
 
 export interface AuthContextType {

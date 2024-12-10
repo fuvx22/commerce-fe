@@ -12,6 +12,7 @@ import ProductManagePage from "@/pages/ProductManagePage";
 import SubmitMailPage from "@/pages/SubmitMailPage";
 import ResetPasswordPage from "@/pages/ResetPasswordPage";
 import NotFoundPage from "@/pages/NotFoundPage";
+import VerifyPage from "@/pages/verifyPage";
 
 function App() {
   return (
@@ -33,6 +34,14 @@ function App() {
               <LoginPage />
             </Layout>
           </PrivateRoute>
+        }
+      />
+      <Route
+        path="/verify-email"
+        element={
+          <Layout>
+            <VerifyPage />
+          </Layout>
         }
       />
       <Route
