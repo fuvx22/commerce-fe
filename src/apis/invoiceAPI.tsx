@@ -61,4 +61,37 @@ export const useOrderInvoice = () => {
   return { orderInvoice, isLoading };
 }
 
+export const useInvoiceAPI = () => {
+  const [isLoading, setIsLoading] = useState(false);
+
+  const getInvoices = async (
+    page: number = 1,
+    limit: number = 12,
+    startDate: string = "",
+    endDate: string = "",
+    statusShipping: string = "",
+  ) => {
+    try {
+      setIsLoading(true);
+      const res = await axiosInstance.get(`/api/Invoice`, {
+        params: {
+          page,
+          limit,
+          startDate,
+          endDate,
+          statusShipping,
+        },
+      });
+      return res.data.data;
+    } catch (error) {
+      console.error("Error getting invoices:", error);
+      return error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return { getInvoices, isLoading };
+}
+
 

@@ -13,6 +13,7 @@ export interface User {
 
 export interface AuthContextType {
   user: User | null;
+  setUser: (user: User | unknown) => void;
   loading: boolean;
   login: (data: LoginFormData) => Promise<boolean | void>;
   logout: () => void;

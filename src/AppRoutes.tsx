@@ -12,9 +12,9 @@ import ProductManagePage from "@/pages/ProductManagePage";
 import SubmitMailPage from "@/pages/SubmitMailPage";
 import ResetPasswordPage from "@/pages/ResetPasswordPage";
 import NotFoundPage from "@/pages/NotFoundPage";
-import VerifyPage from "@/pages/verifyPage";
+import VerifyPage from "@/pages/VerifyPage";
 
-function App() {
+function AppRoutes() {
   return (
     <Routes>
       <Route path="/" element={<Layout>Home page</Layout>} />
@@ -135,4 +135,4 @@ function App() {
   );
 }
 
-export default App;
+export default AppRoutes;

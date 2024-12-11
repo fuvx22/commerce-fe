@@ -82,23 +82,6 @@ const UserForm = ({ onSubmit, isLoading, title, buttonText }: Props) => {
 
         <FormField
           control={form.control}
-          name="email"
-          render={({ field }) => (
-            <FormItem>
-              <FormLabel>Email</FormLabel>
-              <FormControl>
-                <Input
-                  {...field}
-                  value={field.value ?? ""}
-                  placeholder="email"
-                />
-              </FormControl>
-              <FormMessage />
-            </FormItem>
-          )}
-        />
-        <FormField
-          control={form.control}
           name="fullName"
           render={({ field }) => (
             <FormItem>
@@ -114,6 +97,7 @@ const UserForm = ({ onSubmit, isLoading, title, buttonText }: Props) => {
             </FormItem>
           )}
         />
+
         <div className="flex flex-col md:flex-row gap-2 align-middle">
           <FormField
             control={form.control}
@@ -150,6 +134,25 @@ const UserForm = ({ onSubmit, isLoading, title, buttonText }: Props) => {
             )}
           />
         </div>
+
+        <FormField
+          control={form.control}
+          name="email"
+          render={({ field }) => (
+            <FormItem>
+              <FormLabel>Email</FormLabel>
+              <FormControl>
+                <Input
+                  {...field}
+                  value={field.value ?? ""}
+                  placeholder="email"
+                  readOnly
+                />
+              </FormControl>
+              <FormMessage />
+            </FormItem>
+          )}
+        />
         <FormField
           control={form.control}
           name="role"
