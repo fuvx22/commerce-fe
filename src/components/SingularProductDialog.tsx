@@ -73,9 +73,12 @@ const SingularProductDialog = ({ product, open, onClose, onAddToCart }: Props) =
                   onClick={() => {
                     onAddToCart?.(product, quantity);
                   }}
+                  disabled={product.views === 0}
                 >
                   <ShoppingCartIcon size={24} />
-                  <span className="ml-2">Thêm vào giỏ hàng</span>
+                  <span className="ml-2">
+                    {product.views === 0 ? "Tạm hết hàng" : "Thêm vào giỏ hàng"}
+                  </span>
                 </Button>
               </div>
             </div>

@@ -28,3 +28,17 @@ export interface Category {
   categoryAliasName: string;
   description: string;
 }
+
+export interface Invoice {
+  id: string;
+  cancelDate: string;
+  deliveryDate: string;
+  orderDate: string;
+  shippingDate: string;
+  shippingStatus: string;
+  status: string;
+  totalAmount: number;
+  customerName: string;
+}
+
+

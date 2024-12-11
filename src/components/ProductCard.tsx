@@ -59,8 +59,12 @@ const ProductCard = ({ product, onSelected }: Props) => {
         )}
 
         <div className="flex justify-center">
-          <Button size="sm" onClick={handleAddToCart}>
-            Add to cart
+          <Button
+            disabled={product.views === 0}
+            size="sm"
+            onClick={handleAddToCart}
+          >
+            {product.views === 0 ? "Tạm hết hàng" : "Thêm vào giỏ"}
           </Button>
         </div>
       </CardContent>

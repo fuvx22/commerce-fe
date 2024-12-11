@@ -13,6 +13,7 @@ import SubmitMailPage from "@/pages/SubmitMailPage";
 import ResetPasswordPage from "@/pages/ResetPasswordPage";
 import NotFoundPage from "@/pages/NotFoundPage";
 import VerifyPage from "@/pages/VerifyPage";
+import InvoiceManagePage from "@/pages/InvoiceManagePage";
 
 function AppRoutes() {
   return (
@@ -117,6 +118,16 @@ function AppRoutes() {
           <PrivateRoute type="admin">
             <Layout>
               <ProductManagePage />
+            </Layout>
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="invoice-management"
+        element={
+          <PrivateRoute type="admin">
+            <Layout>
+              <InvoiceManagePage />
             </Layout>
           </PrivateRoute>
         }

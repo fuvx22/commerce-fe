@@ -35,6 +35,7 @@ const ProductsPage = () => {
   useEffect(() => {
     const fetch = async () => {
       await getCategories();
+      setCurrentPage(1);
       if (category !== "all" && category !== "") {
         await getProductsByCategory(category, 1, 12, searchValue, sort);
       } else {

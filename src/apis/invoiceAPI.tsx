@@ -33,6 +33,16 @@ export const getInvoiceStatusList = async () => {
   }
 };
 
+export const getShippingStatusList = async () => {
+  try {
+    const res = await axiosInstance.get(`/api/Invoice/shipping-status`);
+    return res.data.data;
+  } catch (error) {
+    console.error("Error getting status shipping list:", error);
+    return [];
+  }
+};
+
 export const useOrderInvoice = () => {
   const [isLoading, setIsLoading] = useState(false);
 
