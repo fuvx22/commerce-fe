@@ -1,7 +1,7 @@
 import React, { createContext, useContext, useState, useEffect } from "react";
 import { User, AuthContextType } from "@/types/auth";
 import { LoginFormData } from "@/components/forms/LoginForm";
-import { useLoginAPI, autoLogin, getUserInfo } from "@/apis/authAPI";
+import { useLoginAPI, autoLogin, getUserInfo, callLogout } from "@/apis/authAPI";
 
 const AuthContext = createContext<AuthContextType | null>(null);
 
@@ -13,6 +13,7 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
   const [message, setMessage] = useState<string | null>(null);
 
   const { loginRequest } = useLoginAPI();
+  
 
   useEffect(() => {
     const fetchUser = async () => {
@@ -52,10 +53,10 @@ export const AuthProvider: React.FC<{ children: React.ReactNode }> = ({
     return isSuccessful;
   };
 
-  const logout = () => {
+  const logout = async () => {
     setUser(null);
-    localStorage.removeItem("access-token");
-    localStorage.removeItem("refresh-token");
+    await callLogout();
+    location.reload();
   };
 
   const value = {

@@ -22,16 +22,31 @@ import {
   SelectTrigger,
   SelectValue,
 } from "@/components/ui/select";
+import {
+  Dialog,
+  DialogContent,
+  DialogFooter,
+  DialogHeader,
+  DialogTitle,
+} from "@/components/ui/dialog";
+import { formatPrice } from "@/utils/utils";
+import ConfirmDialog from "@/components/ConfirmDialog";
+import { useShowToast } from "@/utils/toast";
 
 const InvoiceManagePage = () => {
-  const { isLoading, getInvoices } = useInvoiceAPI();
+  const { showToast } = useShowToast();
   const [invoices, setInvoices] = useState<Invoice[]>([]);
-  const [selectedInvoice, setSelectedInvoice] = useState<Invoice | null>(null);
-  const [page, setPage] = useState(1);
   const [startDate, setStartDate] = useState<Date | undefined>(undefined);
+  const [page, setPage] = useState(1);
   const [endDate, setEndDate] = useState<Date | undefined>(undefined);
   const [statusShipping, setStatusShipping] = useState("");
+  const [isOpened, setIsOpened] = useState(false);
+  const [isConfirmOpened, setIsConfirmOpened] = useState(false);
+  const { isLoading, getInvoices, getInvoiceDetail, updateShippingStatus } =
+    useInvoiceAPI();
   const totalPage = useRef();
+  const selectedInvoice = useRef(null);
+  const selectedStatusId = useRef<string>("");
   const statusList = useRef<
     {
       id: string;
@@ -94,7 +109,47 @@ const InvoiceManagePage = () => {
     );
   };
 
-  console.log("shipping status:", statusShipping);
+  const handleViewInvoice = (invoiceId: string) => async () => {
+    const res = await getInvoiceDetail(invoiceId);
+
+    if (res.statusCode === 200) {
+      selectedInvoice.current = res.data;
+      setIsOpened(true);
+    }
+  };
+
+  const handleSelectStatus = async (statusId: string) => {
+    selectedStatusId.current = statusId;
+    setIsConfirmOpened(true);
+  };
+
+  const handleConfirmUpdateStatus = async () => {
+    if (!selectedInvoice.current || !selectedStatusId.current) {
+      return;
+    }
+
+    const statusId = selectedStatusId.current;
+
+    await updateShippingStatus(selectedInvoice.current.id, statusId);
+
+    showToast(
+      "Cập nhật trạng thái đơn hàng thành công",
+      "Trạng thái đã được cập nhật",
+      "success"
+    );
+
+    setInvoices((prev) => {
+      const idx = prev.findIndex(
+        (invoice) => invoice.id === selectedInvoice.current.id
+      );
+      prev[idx].shippingStatus = statusList.current.find(
+        (status) => status.id === statusId
+      ).name;
+      return prev;
+    });
+
+    setIsOpened(false);
+  };
 
   return (
     <div>
@@ -155,9 +210,24 @@ const InvoiceManagePage = () => {
                   <TableCell>{invoice.customerName}</TableCell>
                   <TableCell>{invoice.totalAmount}</TableCell>
                   <TableCell>{invoice.status}</TableCell>
-                  <TableCell>{invoice.shippingStatus}</TableCell>
                   <TableCell>
-                    <Button variant="outline">View</Button>
+                    <span
+                      className={
+                        invoice.shippingStatus === "Đã hủy"
+                          ? "bg-red-500 text-white px-3 py-1 rounded-xl"
+                          : ""
+                      }
+                    >
+                      {invoice.shippingStatus}
+                    </span>
+                  </TableCell>
+                  <TableCell>
+                    <Button
+                      onClick={handleViewInvoice(invoice.id)}
+                      variant="outline"
+                    >
+                      Xem
+                    </Button>
                   </TableCell>
                 </TableRow>
               ))}
@@ -170,6 +240,78 @@ const InvoiceManagePage = () => {
         currentPage={page}
         onPageChange={handleChangePage}
         totalPage={10}
+      />
+
+      <Dialog open={isOpened} onOpenChange={setIsOpened}>
+        <DialogContent>
+          <DialogHeader>
+            <DialogTitle>Chi tiết đơn hàng</DialogTitle>
+          </DialogHeader>
+          <div>
+            {selectedInvoice?.current && (
+              <div className="flex flex-col space-y-1 text-sm">
+                <p>Ngày đặt hàng: {selectedInvoice.current.orderDate}</p>
+                <p>Trạng thái: {selectedInvoice.current.shippingStatus}</p>
+                <p>Thanh toán: {selectedInvoice.current.status}</p>
+                <Table className="mt-4">
+                  <TableHeader>
+                    <TableRow>
+                      <TableHead>STT</TableHead>
+                      <TableHead>Sản phẩm</TableHead>
+                      <TableHead>SL</TableHead>
+                      <TableHead>Giá</TableHead>
+                    </TableRow>
+                  </TableHeader>
+                  <TableBody>
+                    {selectedInvoice.current.invoiceDetil.map(
+                      (product, idx) => (
+                        <TableRow key={idx}>
+                          <TableCell>{idx + 1}</TableCell>
+                          <TableCell>{product.productName}</TableCell>
+                          <TableCell>{product.quantity}</TableCell>
+                          <TableCell>{formatPrice(product.price)}</TableCell>
+                        </TableRow>
+                      )
+                    )}
+                  </TableBody>
+                </Table>
+                <p className="self-end mt-2 font-semibold">
+                  Tổng giá trị:{" "}
+                  {formatPrice(selectedInvoice.current.totalAmount)}
+                </p>
+              </div>
+            )}
+          </div>
+          <DialogFooter>
+            <Select
+              onValueChange={(value) => {
+                handleSelectStatus(value);
+              }}
+              disabled={selectedInvoice?.current?.shippingStatus == "Đã hủy"}
+            >
+              <SelectTrigger className="w-full">
+                <SelectValue placeholder="Cập nhật đơn hàng tại đây" />
+              </SelectTrigger>
+              <SelectContent>
+                {statusList.current.map((status) => (
+                  <SelectItem
+                    className="cursor-pointer"
+                    key={status.id}
+                    value={status.id}
+                  >
+                    {status.name}
+                  </SelectItem>
+                ))}
+              </SelectContent>
+            </Select>
+          </DialogFooter>
+        </DialogContent>
+      </Dialog>
+
+      <ConfirmDialog
+        open={isConfirmOpened}
+        onCancel={() => setIsConfirmOpened(false)}
+        onConfirm={handleConfirmUpdateStatus}
       />
     </div>
   );

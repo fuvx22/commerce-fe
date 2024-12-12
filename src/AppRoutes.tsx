@@ -14,6 +14,7 @@ import ResetPasswordPage from "@/pages/ResetPasswordPage";
 import NotFoundPage from "@/pages/NotFoundPage";
 import VerifyPage from "@/pages/VerifyPage";
 import InvoiceManagePage from "@/pages/InvoiceManagePage";
+import UserOrdersPage from "@/pages/UserOrdersPage";
 
 function AppRoutes() {
   return (
@@ -97,6 +98,16 @@ function AppRoutes() {
           <PrivateRoute>
             <Layout>
               <UserProfilePage />
+            </Layout>
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="/my-orders"
+        element={
+          <PrivateRoute>
+            <Layout>
+              <UserOrdersPage />
             </Layout>
           </PrivateRoute>
         }

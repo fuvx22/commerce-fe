@@ -22,33 +22,33 @@ const MobileNav = () => {
       <SheetContent>
         <SheetHeader>
           <SheetTitle>
-            {isAuthenticated ? `Hello, ${user?.name}` : "Hello, Guest"}
+            {isAuthenticated ? `Hello, ${user?.fullName}` : "Hello, Guest"}
           </SheetTitle>
         </SheetHeader>
         {isAuthenticated ? (
-          <div className="flex flex-col gap-3">
+          <div className="flex flex-col gap-3 font-semibold">
             <SheetClose asChild>
-              <Link to="/shop" className="flex bg-white font-bold items-center">
+              <Link to="/shop" className="flex bg-white items-center">
                 Shop
               </Link>
             </SheetClose>
             <SheetClose asChild>
-              <Link to="/cart" className="flex bg-white font-bold items-center">
+              <Link to="/cart" className="flex bg-white items-center">
                 Cart
               </Link>
             </SheetClose>
             <SheetClose asChild>
               <Link
-                to="/account"
-                className="flex bg-white font-bold items-center"
+                to="/profile"
+                className="flex bg-white items-center"
               >
                 Tài khoản của tôi
               </Link>
             </SheetClose>
             <SheetClose asChild>
               <Link
-                to="/billing"
-                className="flex bg-white font-bold items-center"
+                to="/my-orders"
+                className="flex bg-white items-center"
               >
                 Đơn hàng của tôi
               </Link>

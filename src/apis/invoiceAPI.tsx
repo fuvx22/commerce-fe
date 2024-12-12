@@ -46,16 +46,13 @@ export const getShippingStatusList = async () => {
 export const useOrderInvoice = () => {
   const [isLoading, setIsLoading] = useState(false);
 
-  const orderInvoice = async (
-    orderData : {
-      address: string;
-      paymentMethod: number;
-      note: string;
-      totalAmount: number;
-      cartItems: CartItems;
-    }
-
-  ) => {
+  const orderInvoice = async (orderData: {
+    address: string;
+    paymentMethod: number;
+    note: string;
+    totalAmount: number;
+    cartItems: CartItems;
+  }) => {
     try {
       setIsLoading(true);
       const res = await axiosInstance.post(`/api/Invoice/order`, orderData);
@@ -69,7 +66,7 @@ export const useOrderInvoice = () => {
   };
 
   return { orderInvoice, isLoading };
-}
+};
 
 export const useInvoiceAPI = () => {
   const [isLoading, setIsLoading] = useState(false);
@@ -79,7 +76,7 @@ export const useInvoiceAPI = () => {
     limit: number = 12,
     startDate: string = "",
     endDate: string = "",
-    statusShipping: string = "",
+    statusShipping: string = ""
   ) => {
     try {
       setIsLoading(true);
@@ -101,7 +98,68 @@ export const useInvoiceAPI = () => {
     }
   };
 
-  return { getInvoices, isLoading };
-}
+  const getUserInvoices = async () => {
+    try {
+      setIsLoading(true);
+      const res = await axiosInstance.get(`/api/Invoice/user`);
+      return res.data;
+    } catch (error) {
+      console.error("Error getting user invoices:", error);
+      return error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  const getInvoiceDetail = async (invoiceId: string) => {
+    try {
+      setIsLoading(true);
+      const res = await axiosInstance.get(`/api/Invoice/${invoiceId}`);
+      return res.data;
+    } catch (error) {
+      console.error("Error getting invoice detail:", error);
+      return error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
 
+  const cancelMyInvoice = async (invoiceId: string) => {
+    try {
+      setIsLoading(true);
+      const res = await axiosInstance.put(`/api/Invoice/${invoiceId}`, {
+        shippingStatus: "C62E3C10-5E07-427E-A55A-45CD301B5397", // Canceled status id
+      });
+      return res.data;
+    } catch (error) {
+      console.error("Error canceling invoice:", error);
+      return error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const updateShippingStatus = async (invoiceId: string, statusId: string) => {
+    try {
+      setIsLoading(true);
+      const res = await axiosInstance.put(`/api/Invoice/admin/${invoiceId}`, {
+        shippingStatus: statusId,
+      });
+      return res.data;
+    } catch (error) {
+      console.error("Error updating shipping status:", error);
+      return error;
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return {
+    getInvoices,
+    getUserInvoices,
+    getInvoiceDetail,
+    cancelMyInvoice,
+    updateShippingStatus,
+    isLoading,
+  };
+};

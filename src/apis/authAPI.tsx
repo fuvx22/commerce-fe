@@ -208,6 +208,12 @@ const useVerifyEmailAPI = () => {
   return { isLoading, sendVerifyEmail, verifyEmail };
 };
 
+const callLogout = async () => {
+  localStorage.removeItem("access-token");
+  localStorage.removeItem("refresh-token");
+  await axiosInstance.post(`/api/Users/logout`);
+}
+
 export {
   useRegisterAPI,
   useLoginAPI,
@@ -215,4 +221,5 @@ export {
   getUserInfo,
   usePasswordAPI,
   useVerifyEmailAPI,
+  callLogout,
 };

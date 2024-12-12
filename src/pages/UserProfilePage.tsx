@@ -14,7 +14,7 @@ import { usePasswordAPI } from "@/apis/authAPI";
 
 const UserProfilePage = () => {
   const { showToast } = useShowToast();
-  const { logout, loading, user } = useAuth();
+  const { logout, loading, user, setUser } = useAuth();
   const { isLoading, updateUserRequest } = useUpdateUserAPI();
   const { changePassword, isLoading: isChangePasswordLoading } =
     usePasswordAPI();
@@ -26,6 +26,8 @@ const UserProfilePage = () => {
 
   const handleSubmit = async (data: UserFormData) => {
     const isSuccessful = await updateUserRequest(data);
+
+    setUser((prev) => ({ ...prev, ...data }));
 
     if (isSuccessful) {
       showToast(
