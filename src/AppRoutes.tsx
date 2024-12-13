@@ -15,6 +15,8 @@ import NotFoundPage from "@/pages/NotFoundPage";
 import VerifyPage from "@/pages/VerifyPage";
 import InvoiceManagePage from "@/pages/InvoiceManagePage";
 import UserOrdersPage from "@/pages/UserOrdersPage";
+import PaymentManagePage from "@/pages/PaymentManagePage";
+import UserPaymentsPage from "@/pages/UserPaymentsPage";
 
 function AppRoutes() {
   return (
@@ -112,6 +114,16 @@ function AppRoutes() {
           </PrivateRoute>
         }
       />
+      <Route
+        path="/my-payments"
+        element={
+          <PrivateRoute>
+            <Layout>
+              <UserPaymentsPage />
+            </Layout>
+          </PrivateRoute>
+        }
+      />
 
       <Route
         path="category-management"
@@ -139,6 +151,16 @@ function AppRoutes() {
           <PrivateRoute type="admin">
             <Layout>
               <InvoiceManagePage />
+            </Layout>
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="payment-management"
+        element={
+          <PrivateRoute type="admin">
+            <Layout>
+              <PaymentManagePage />
             </Layout>
           </PrivateRoute>
         }

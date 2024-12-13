@@ -113,14 +113,11 @@ export const useInvoiceAPI = () => {
 
   const getInvoiceDetail = async (invoiceId: string) => {
     try {
-      setIsLoading(true);
       const res = await axiosInstance.get(`/api/Invoice/${invoiceId}`);
       return res.data;
     } catch (error) {
       console.error("Error getting invoice detail:", error);
       return error;
-    } finally {
-      setIsLoading(false);
     }
   };
 

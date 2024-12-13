@@ -1,3 +1,4 @@
+
 export interface Product {
   id: string;
   name: string;
@@ -38,6 +39,16 @@ export interface Invoice {
   shippingStatus: string;
   status: string;
   totalAmount: number;
+  customerName: string;
+}
+
+export interface Payment {
+  id: string;
+  paymentMethod: string;
+  amount: number;
+  customerId: string;
+  invoiceId: string;
+  paymentDate: string;
   customerName: string;
 }
 

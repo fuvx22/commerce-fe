@@ -34,6 +34,9 @@ const UserDropDownMenu: React.FC<{ user: User | null }> = ({ user }) => {
         <DropdownMenuItem>
           <Link to={"/my-orders"}>Đơn hàng của tôi</Link>
         </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link to={"/my-payments"}>Lịch sử giao dịch</Link>
+        </DropdownMenuItem>
         <DropdownMenuSeparator />
         <DropdownMenuItem>
           <Button onClick={() => logout()} variant="destructive">

@@ -30,6 +30,8 @@ const UserOrdersPage = () => {
       status: string;
       shippingStatus: string;
       totalAmount: number;
+      cancelDate?: string;
+      shippingDate?: string;
     }[]
   >([]);
   const [isOpened, setIsOpened] = useState(false);
@@ -91,6 +93,7 @@ const UserOrdersPage = () => {
             <TableRow>
               <TableHead>STT</TableHead>
               <TableHead>Ngày đặt</TableHead>
+              <TableHead>Ngày Hủy/Giao hàng</TableHead>
               <TableHead>Trạng thái thanh toán</TableHead>
               <TableHead>Trạng thái giao hàng</TableHead>
               <TableHead>Tổng giá trị</TableHead>
@@ -105,6 +108,11 @@ const UserOrdersPage = () => {
               >
                 <TableCell>{index + 1}</TableCell>
                 <TableCell>{invoice.orderDate}</TableCell>
+                <TableCell>
+                    {invoice.shippingStatus === "Đã hủy"
+                      ? invoice.cancelDate
+                      : invoice.shippingDate}
+                  </TableCell>
                 <TableCell>{invoice.status}</TableCell>
                 <TableCell>
                   <span
@@ -138,6 +146,16 @@ const UserOrdersPage = () => {
                 <p>Ngày đặt hàng: {selectedInvoice.current.orderDate}</p>
                 <p>Trạng thái: {selectedInvoice.current.shippingStatus}</p>
                 <p>Thanh toán: {selectedInvoice.current.status}</p>
+                {
+                  selectedInvoice.current?.shippingDate && (
+                    <p>Ngày giao: {selectedInvoice.current?.shippingDate}</p>
+                  )
+                }
+                {
+                  selectedInvoice.current?.cancelDate && (
+                    <p>Ngày hủy: {selectedInvoice.current?.cancelDate}</p>
+                  )
+                }
                 <Table className="mt-4">
                   <TableHeader>
                     <TableRow>

@@ -1,6 +1,6 @@
 import { useEffect, useRef, useState } from "react";
-import { useInvoiceAPI } from "@/apis/invoiceAPI";
-import { getShippingStatusList } from "@/apis/invoiceAPI";
+import { useInvoiceAPI, getShippingStatusList } from "@/apis/invoiceAPI";
+import { usePaymentAPI } from "@/apis/paymentAPI";
 import { Button } from "@/components/ui/button";
 import {
   Table,
@@ -28,6 +28,7 @@ import {
   DialogFooter,
   DialogHeader,
   DialogTitle,
+  DialogDescription,
 } from "@/components/ui/dialog";
 import { formatPrice } from "@/utils/utils";
 import ConfirmDialog from "@/components/ConfirmDialog";
@@ -44,6 +45,7 @@ const InvoiceManagePage = () => {
   const [isConfirmOpened, setIsConfirmOpened] = useState(false);
   const { isLoading, getInvoices, getInvoiceDetail, updateShippingStatus } =
     useInvoiceAPI();
+  const { addPayment } = usePaymentAPI();
   const totalPage = useRef();
   const selectedInvoice = useRef(null);
   const selectedStatusId = useRef<string>("");
@@ -151,6 +153,24 @@ const InvoiceManagePage = () => {
     setIsOpened(false);
   };
 
+  const handlePayment = (invoiceId: string) => async () => {
+    const res = await addPayment(invoiceId);
+
+    if (res.statusCode === 200) {
+      showToast(
+        "Thanh toán thành công",
+        "Đơn hàng đã được thanh toán",
+        "success"
+      );
+
+      setInvoices((prev) => {
+        const idx = prev.findIndex((invoice) => invoice.id === invoiceId);
+        prev[idx].status = "Đơn hàng đã thanh toán";
+        return prev;
+      });
+    }
+  };
+
   return (
     <div>
       <h1 className="text-2xl py-4 text-center">Quản lý đơn hàng</h1>
@@ -200,6 +220,7 @@ const InvoiceManagePage = () => {
                 <TableHead>Total Amount</TableHead>
                 <TableHead>Status</TableHead>
                 <TableHead>Shipping Status</TableHead>
+                <TableHead>Shipping/Cancel Date</TableHead>
                 <TableHead>Actions</TableHead>
               </TableRow>
             </TableHeader>
@@ -222,12 +243,30 @@ const InvoiceManagePage = () => {
                     </span>
                   </TableCell>
                   <TableCell>
+                    {invoice.shippingStatus === "Đã hủy"
+                      ? invoice.cancelDate
+                      : invoice.shippingDate}
+                  </TableCell>
+                  <TableCell>
                     <Button
                       onClick={handleViewInvoice(invoice.id)}
                       variant="outline"
+                      size={"sm"}
+                      className="mr-1"
                     >
                       Xem
                     </Button>
+
+                    {invoice.shippingStatus === "Đã giao hàng" &&
+                      invoice.status === "Chờ thanh toán" && (
+                        <Button
+                          onClick={handlePayment(invoice.id)}
+                          variant="outline"
+                          size={"sm"}
+                        >
+                          Thanh toán
+                        </Button>
+                      )}
                   </TableCell>
                 </TableRow>
               ))}
@@ -246,6 +285,9 @@ const InvoiceManagePage = () => {
         <DialogContent>
           <DialogHeader>
             <DialogTitle>Chi tiết đơn hàng</DialogTitle>
+            <DialogDescription>
+              Đơn hàng chỉ có thể hủy khi ở trạng thái chờ xác nhận.
+            </DialogDescription>
           </DialogHeader>
           <div>
             {selectedInvoice?.current && (
@@ -287,7 +329,7 @@ const InvoiceManagePage = () => {
               onValueChange={(value) => {
                 handleSelectStatus(value);
               }}
-              disabled={selectedInvoice?.current?.shippingStatus == "Đã hủy"}
+              disabled={selectedInvoice?.current?.status != "Chờ thanh toán"}
             >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Cập nhật đơn hàng tại đây" />
@@ -298,6 +340,13 @@ const InvoiceManagePage = () => {
                     className="cursor-pointer"
                     key={status.id}
                     value={status.id}
+                    disabled={
+                      selectedInvoice?.current?.shippingStatus ===
+                        status.name ||
+                      (selectedInvoice?.current?.shippingStatus !==
+                        "Chờ xác nhận" &&
+                        status.name === "Đã hủy")
+                    }
                   >
                     {status.name}
                   </SelectItem>

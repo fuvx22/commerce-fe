@@ -72,8 +72,12 @@ function VerifyPage() {
               Chúng tôi đã gửi một thư xác thực tới email của bản. Hãy mở email
               và bấm vào link xác thực để hoàn thực.
             </p>
-            <Button className="mt-5" onClick={sendVerifyEmail}>
-              Nếu bạn không nhận được email, bấm vào đây để gửi lại
+            <Button className="mt-5"
+              onClick={async () => {
+                location.reload();
+              }}
+            >
+              Nếu đã xác thực email, bấm vào đây
             </Button>
           </div>
         </div>

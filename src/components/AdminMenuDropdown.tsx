@@ -22,6 +22,9 @@ const AdminMenuDropdown = () => {
         <DropdownMenuItem>
           <Link to={"/invoice-management"}>Quản lý đơn hàng</Link>
         </DropdownMenuItem>
+        <DropdownMenuItem>
+          <Link to={"/payment-management"}>DS giao dịch thanh toán</Link>
+        </DropdownMenuItem>
       </DropdownMenuContent>
     </DropdownMenu>
   );
