@@ -8,7 +8,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 import { Product } from "@/types/entity";
-import { PencilLine, Plus, Trash2 } from "lucide-react";
+import { PencilLine, Plus, Trash2, X } from "lucide-react";
 import { useEffect, useState } from "react";
 import {
   Dialog,
@@ -24,6 +24,7 @@ import LoadingPanel from "@/components/LoadingPanel";
 import ConfirmDialog from "@/components/ConfirmDialog";
 import EditProductForm from "@/components/forms/product/EditProductForm";
 import ActionPagination from "@/components/ActionPagination";
+import { Input } from "@/components/ui/input";
 
 const CategoryManagePage = () => {
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
@@ -31,13 +32,24 @@ const CategoryManagePage = () => {
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
   const [selectedProduct, setSelectedProduct] = useState<Product | null>(null);
   const [currentPage, setCurrentPage] = useState(1);
+  const [search, setSearch] = useState("");
   const { getProducts, isLoading, products, productsInfo } = useGetProducts();
   const { getCategories, categories } = useGetCategories();
   const { deleteProduct } = useDeleteProduct();
+
   useEffect(() => {
     getCategories();
-    getProducts(currentPage, 12);
+    getProducts(currentPage, 10);
   }, [currentPage]);
+
+  useEffect(() => {
+    //delay search to prevent too many requests
+    const delaySearch = setTimeout(() => {
+      setCurrentPage(1);
+      getProducts(1, 10, search);
+    }, 300);
+    return () => clearTimeout(delaySearch);
+  }, [search]);
 
   const handleEditProduct = (product: Product) => () => {
     setSelectedProduct(product);
@@ -53,7 +65,22 @@ const CategoryManagePage = () => {
   return (
     <div>
       <h1 className="text-2xl py-4 text-center">Quản lý danh mục sản phẩm</h1>
-      <div className="flex justify-end">
+      <div className="flex justify-between gap-1 mb-1">
+        <span className="relative flex items-center md:basis-[300px]">
+          <Input
+            placeholder="Tìm kiếm sản phẩm"
+            value={search}
+            onChange={(e) => setSearch(e.target.value)}
+          />
+          {search && (
+            <X
+              size={18}
+              className="text-gray-400 cursor-pointer absolute right-2"
+              onClick={() => setSearch("")}
+            />
+          )}
+        </span>
+
         <Button
           onClick={() => setCreateDialogOpen(true)}
           variant="outline"
@@ -64,7 +91,7 @@ const CategoryManagePage = () => {
         </Button>
       </div>
 
-      <div className="min-h-[300px]">
+      <div className="min-h-[665px]">
         {isLoading ? (
           <LoadingPanel />
         ) : (
@@ -78,7 +105,6 @@ const CategoryManagePage = () => {
                   <TableHead>Giá</TableHead>
                   <TableHead>Mô tả</TableHead>
                   <TableHead>Danh mục</TableHead>
-                  <TableHead>Ngày sản xuất</TableHead>
                   <TableHead>Hình ảnh</TableHead>
                   <TableHead>Giảm giá</TableHead>
                   <TableHead>Tồn kho</TableHead>
@@ -90,7 +116,9 @@ const CategoryManagePage = () => {
                 {products.map((product, index) => (
                   <TableRow key={product.id}>
                     <TableCell>{index + 1}</TableCell>
-                    <TableCell>{product.name}</TableCell>
+                    <TableCell className="line-clamp-2">
+                      {product.name}
+                    </TableCell>
                     <TableCell>{product.productNameAlias}</TableCell>
                     <TableCell>{product.price}</TableCell>
                     <TableCell className="whitespace-nowrap overflow-ellipsis overflow-hidden max-w-[200px]">
@@ -103,7 +131,7 @@ const CategoryManagePage = () => {
                         <span className="text-red-500">Không xác định</span>
                       )}
                     </TableCell>
-                    <TableCell>{product.productDate}</TableCell>
+                    {/* <TableCell>{product.productDate}</TableCell> */}
                     <TableCell>
                       <img
                         className="max-h-[64px] rounded"

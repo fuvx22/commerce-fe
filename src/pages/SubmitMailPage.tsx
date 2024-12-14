@@ -35,11 +35,16 @@ const SubmitMailPage = () => {
   const { isLoading, sendResetPasswordEmail } = usePasswordAPI();
 
   const handleSubmit = async (data: SubmitMailFormData) => {
-    try {
-      await sendResetPasswordEmail(data);
-      showToast("Thành công", "Vui lòng kiểm tra email để đặt lại mật khẩu", "success");
-    } catch (error) {
-      console.error(error);
+    const res = await sendResetPasswordEmail(data);
+
+    if (res.statusCode === 200) {
+      showToast(
+        "Thành công",
+        "Vui lòng kiểm tra email để đặt lại mật khẩu",
+        "success"
+      );
+    } else {
+      console.error(res);
       showToast(
         "Không thành công",
         "Đã có lỗi xảy ra, vui lòng thử lại sau",

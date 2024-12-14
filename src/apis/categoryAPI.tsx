@@ -1,5 +1,5 @@
 import axiosInstance from "@/apis/axiosInstance";
-import { CreateCategoryFormData } from "@/components/forms/CreateCategoryForm";
+import { CreateCategoryFormData } from "@/components/forms/category/CreateCategoryForm";
 import { Category } from "@/types/entity";
 import { useState } from "react";
 

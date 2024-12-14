@@ -30,6 +30,16 @@ export interface Category {
   description: string;
 }
 
+export interface Supplier {
+  id: string;
+  name: string;
+  logo: string;
+  supplierContact: string;
+  email: string;
+  phone: string;
+  address: string;
+}
+
 export interface Invoice {
   id: string;
   cancelDate: string;

@@ -33,7 +33,7 @@ type Props = {
 const formSchema = z
   .object({
     name: z.string().min(1, "Tên sản phẩm không được để trống"),
-    productNameAlias: z.string().min(1, "Tên bí danh không được để trống"),
+    productNameAlias: z.string().optional(),
     categoryId: z.string().min(1, "Vui lòng chọn danh mục"),
     price: z.coerce.number().gte(1, "Không được bỏ trống giá"),
     imageUrl: z.string().optional(),
@@ -43,7 +43,7 @@ const formSchema = z
     productDate: z.string().optional(),
     discount: z.coerce.number().optional(),
     views: z.coerce.number().gte(0, "Khoảng giảm giá không hợp lệ"),
-    description: z.string().min(1, "Mô tả không được để trống"),
+    description: z.string().optional(),
     supplierId: z.any().optional(),
   })
   .refine((data) => data.imageUrl || data.imageFile, {
@@ -200,7 +200,7 @@ const CreateProductForm = ({ onSubmit }: Props) => {
               </FormItem>
             )}
           />
-          <FormField
+          {/* <FormField
             control={form.control}
             name="productDate"
             render={({ field }) => (
@@ -216,7 +216,7 @@ const CreateProductForm = ({ onSubmit }: Props) => {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
         </div>
 
         <div className="flex flex-row gap-8">

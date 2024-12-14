@@ -63,15 +63,14 @@ const ResetPasswordPage = () => {
   }, []);
 
   const handleSubmit = async (data: ResetPasswordFormData) => {
-    try {
-      const token = searchParams.get("token") ?? "";
-      const email = searchParams.get("email") ?? "";
-      await resetPassword({ email, password: data.password, token });
+    const token = searchParams.get("token") ?? "";
+    const email = searchParams.get("email") ?? "";
+    const res = await resetPassword({ email, password: data.password, token });
 
+    if (res.statusCode == 200) {
       showToast("Thành công", "Mật khẩu của bạn đã được thay đổi", "success");
       navigate("/login");
-    } catch (error) {
-      console.error(error);
+    } else {
       showToast(
         "Không thành công",
         "Đã có lỗi xảy ra, vui lòng thử lại sau",

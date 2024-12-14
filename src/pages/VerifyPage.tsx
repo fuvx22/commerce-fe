@@ -1,22 +1,17 @@
 import { useEffect } from "react";
 import { useVerifyEmailAPI } from "@/apis/authAPI";
 import { useAuth } from "@/auth/authContext";
-import { useNavigate, useSearchParams } from "react-router-dom";
+import { useNavigate } from "react-router-dom";
 import { Button } from "@/components/ui/button";
-import { useShowToast } from "@/utils/toast";
+import LoadingPanel from "@/components/LoadingPanel";
 
 function VerifyPage() {
-  const [searchParams] = useSearchParams();
   const navigate = useNavigate();
-  const { sendVerifyEmail, verifyEmail } = useVerifyEmailAPI();
-  const { setUser, user, loading, isAuthenticated } = useAuth();
-  const { showToast } = useShowToast();
+  const { sendVerifyEmail, isLoading } = useVerifyEmailAPI();
+  const { user, loading, isAuthenticated } = useAuth();
 
   useEffect(() => {
     const fetch = async () => {
-      const email = searchParams.get("email");
-      const token = searchParams.get("token");
-
       if (user?.isVerify) {
         navigate("/profile");
         return;
@@ -27,9 +22,7 @@ function VerifyPage() {
         return;
       }
 
-      if (!email || !token) {
-        await sendVerifyEmail();
-      }
+      await sendVerifyEmail();
     };
 
     if (!loading) {
@@ -37,28 +30,9 @@ function VerifyPage() {
     }
   }, [loading]);
 
-  useEffect(() => {
-    const fetch = async () => {
-      const email = searchParams.get("email");
-      const token = searchParams.get("token");
-
-      if (!email || !token) {
-        return;
-      }
-
-      const res = await verifyEmail(token, email);
-
-      if (res.statusCode === 200) {
-        setUser((prev) => prev && { ...prev, isVerify: true });
-        navigate("/profile");
-        showToast("Thành công", "Email của bạn đã được xác thực", "success");
-      } else {
-        navigate("/404");
-      }
-    };
-    fetch();
-  }, []);
-
+  if (isLoading) {
+    return <LoadingPanel />;
+  }
 
   return (
     <>
@@ -72,7 +46,8 @@ function VerifyPage() {
               Chúng tôi đã gửi một thư xác thực tới email của bản. Hãy mở email
               và bấm vào link xác thực để hoàn thực.
             </p>
-            <Button className="mt-5"
+            <Button
+              className="mt-5"
               onClick={async () => {
                 location.reload();
               }}

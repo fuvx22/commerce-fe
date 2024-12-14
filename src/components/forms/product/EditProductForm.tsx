@@ -26,7 +26,7 @@ import {
 import { format } from "date-fns";
 import { useEffect, useState } from "react";
 import { Product } from "@/types/entity";
-import { EditCategoryFormData } from "../EditCategoryForm";
+import { EditCategoryFormData } from "../category/EditCategoryForm";
 
 type Props = {
   onSubmit: () => void;
@@ -36,7 +36,7 @@ type Props = {
 const formSchema = z
   .object({
     name: z.string().min(1, "Tên sản phẩm không được để trống"),
-    productNameAlias: z.string().min(1, "Tên bí danh không được để trống"),
+    productNameAlias: z.any().optional(),
     categoryId: z.string().min(1, "Vui lòng chọn danh mục"),
     price: z.coerce.number().gte(1, "Không được bỏ trống giá"),
     imageUrl: z.any().optional(),
@@ -46,7 +46,7 @@ const formSchema = z
     productDate: z.any().optional(),
     discount: z.coerce.number().gte(0, "Khoảng giảm giá không hợp lệ"),
     views: z.coerce.number().optional(),
-    description: z.string().min(1, "Mô tả không được để trống"),
+    description: z.any().optional(),
     supplierId: z.any().optional(),
   })
 
@@ -195,7 +195,7 @@ const EditProductForm = ({ onSubmit, selectedProduct }: Props) => {
               </FormItem>
             )}
           />
-          <FormField
+          {/* <FormField
             control={form.control}
             name="productDate"
             render={({ field }) => (
@@ -211,7 +211,7 @@ const EditProductForm = ({ onSubmit, selectedProduct }: Props) => {
                 <FormMessage />
               </FormItem>
             )}
-          />
+          /> */}
         </div>
 
         <div className="flex flex-row gap-8">

@@ -35,9 +35,9 @@ const UserPaymentsPage = () => {
 
   return (
     <div className=" px-2">
-      <h1 className="text-xl py-2">Đơn hàng của bạn</h1>
+      <h1 className="text-xl py-2">Lịch sử giao dịch</h1>
       <h2 className="text-gray-600 text-sm pb-2">
-        Bấm vào đơn để xem chi tiết của đơn hàng.
+        Các giao dịch thanh toán của bạn sẽ được hiển thị ở đây.
       </h2>
       <div className="min-h-[568px]">
         {isLoading ? (

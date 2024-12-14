@@ -329,6 +329,7 @@ const InvoiceManagePage = () => {
               onValueChange={(value) => {
                 handleSelectStatus(value);
               }}
+
               disabled={selectedInvoice?.current?.status != "Chờ thanh toán"}
             >
               <SelectTrigger className="w-full">
@@ -359,7 +360,9 @@ const InvoiceManagePage = () => {
 
       <ConfirmDialog
         open={isConfirmOpened}
-        onCancel={() => setIsConfirmOpened(false)}
+        onCancel={() => {
+          setIsConfirmOpened(false);
+        }}
         onConfirm={handleConfirmUpdateStatus}
       />
     </div>

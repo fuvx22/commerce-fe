@@ -17,6 +17,10 @@ import InvoiceManagePage from "@/pages/InvoiceManagePage";
 import UserOrdersPage from "@/pages/UserOrdersPage";
 import PaymentManagePage from "@/pages/PaymentManagePage";
 import UserPaymentsPage from "@/pages/UserPaymentsPage";
+import SupplierManagePage from "@/pages/SupplierManagePage";
+import UserManagePage from "@/pages/UserManagePage";
+import StatisticPage from "@/pages/StatisticPage";
+import ProcessVerifyPage from "@/pages/ProcessVerifyPage";
 
 function AppRoutes() {
   return (
@@ -41,13 +45,14 @@ function AppRoutes() {
         }
       />
       <Route
-        path="/verify-email"
+        path="/require-verify-email"
         element={
           <Layout>
             <VerifyPage />
           </Layout>
         }
       />
+      <Route path="/verify-email" element={<ProcessVerifyPage />} />
       <Route
         path="/register"
         element={
@@ -136,11 +141,31 @@ function AppRoutes() {
         }
       />
       <Route
+        path="supplier-management"
+        element={
+          <PrivateRoute type="admin">
+            <Layout>
+              <SupplierManagePage />
+            </Layout>
+          </PrivateRoute>
+        }
+      />
+      <Route
         path="product-management"
         element={
           <PrivateRoute type="admin">
             <Layout>
               <ProductManagePage />
+            </Layout>
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="user-management"
+        element={
+          <PrivateRoute type="admin">
+            <Layout>
+              <UserManagePage />
             </Layout>
           </PrivateRoute>
         }
@@ -161,6 +186,16 @@ function AppRoutes() {
           <PrivateRoute type="admin">
             <Layout>
               <PaymentManagePage />
+            </Layout>
+          </PrivateRoute>
+        }
+      />
+      <Route
+        path="statistic"
+        element={
+          <PrivateRoute type="admin">
+            <Layout>
+              <StatisticPage />
             </Layout>
           </PrivateRoute>
         }

@@ -7,7 +7,7 @@ import { refreshToken } from "@/apis/axiosInstance";
 import axiosInstance from "@/apis/axiosInstance";
 
 const BACKEND_URL = import.meta.env.VITE_BACKEND_URL;
-const defaultAvatarUrl = import.meta.env.VITE_DEFAULT_AVATAR_URL;
+const DEFAULT_AVATAR = import.meta.env.VITE_DEFAULT_AVATAR_URL;
 
 function useRegisterAPI() {
   const [isLoading, setIsLoading] = useState(false);
@@ -19,7 +19,7 @@ function useRegisterAPI() {
       const { passwordConfirmation, ...rest } = data; // eslint-disable-line @typescript-eslint/no-unused-vars
       const response = await axios.post(`${BACKEND_URL}/api/Users/register`, {
         ...rest,
-        url: defaultAvatarUrl,
+        url: DEFAULT_AVATAR,
       });
       setResponse(response.data);
     } catch (error) {
@@ -118,9 +118,9 @@ const usePasswordAPI = () => {
         `${BACKEND_URL}/api/Users/forgot-password`,
         data
       );
-      setResponse(response.data);
+      return response.data;
     } catch (error) {
-      setResponse(error);
+      return error;
     } finally {
       setIsLoading(false);
     }
@@ -157,9 +157,9 @@ const usePasswordAPI = () => {
         `${BACKEND_URL}/api/Users/reset-password`,
         data
       );
-      setResponse(response.data);
+      return response.data;
     } catch (error) {
-      setResponse(error);
+      return error;
     } finally {
       setIsLoading(false);
     }
@@ -209,9 +209,9 @@ const useVerifyEmailAPI = () => {
 };
 
 const callLogout = async () => {
+  await axiosInstance.get(`/api/Users/logout`);
   localStorage.removeItem("access-token");
   localStorage.removeItem("refresh-token");
-  await axiosInstance.post(`/api/Users/logout`);
 }
 
 export {

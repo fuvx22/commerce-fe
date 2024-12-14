@@ -28,4 +28,59 @@ function useUpdateUserAPI() {
   return { isLoading, response, updateUserRequest };
 }
 
-export { useUpdateUserAPI };
+function useUserAPI() {
+  const [isLoading, setIsLoading] = useState<boolean>(false);
+
+  const getAllUsers = async (fullName: string = "", email: string = "") => {
+    setIsLoading(true);
+    try {
+      const response = await axiosInstance.get("/api/Users/get-all-users", {
+        params: {
+          fullName,
+          email,
+        },
+      });
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const switchUserRole = async (userId: string, role: string) => {
+    try {
+      // eslint-disable-next-line @typescript-eslint/no-unused-expressions
+      role === "Admin" ? (role = "Customer") : (role = "Admin");
+      const response = await axiosInstance.put(
+        `/api/Users/update-role/${userId}`,
+        {
+          role,
+        }
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  const deleteUser = async (userId: string) => {
+    setIsLoading(true);
+    try {
+      const response = await axiosInstance.delete(
+        `/api/Users/delete-user/${userId}`
+      );
+      return response.data;
+    } catch (error) {
+      console.error(error);
+    } finally {
+      setIsLoading(false);
+    }
+  };
+
+  return { isLoading, getAllUsers, switchUserRole, deleteUser };
+}
+
+export { useUpdateUserAPI, useUserAPI };

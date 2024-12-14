@@ -1,6 +1,7 @@
 import { LoginFormData } from "@/components/forms/LoginForm";
 
 export interface User {
+  id?: string;
   address: string | null;
   birthOfDate: Date | null;
   email: string;

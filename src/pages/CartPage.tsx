@@ -210,7 +210,7 @@ const CartPage: React.FC = () => {
                   {isAuthenticated && !user?.isVerify && (
                     <p className="text-red-500">
                       Vui lòng xác minh tài khoản để tiếp tục thanh toán.{" "}
-                      <Link className="underline" to={"/verify"}>
+                      <Link className="underline" to={"/require-verify-email"}>
                         Xác thực tại đây
                       </Link>
                     </p>

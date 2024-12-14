@@ -7,10 +7,9 @@ import {
   TableHeader,
   TableRow,
 } from "@/components/ui/table";
-import { Category } from "@/types/entity";
+import { Supplier } from "@/types/entity";
 import { PencilLine, Plus, Trash2 } from "lucide-react";
 import { useEffect, useState } from "react";
-import { useGetCategories } from "@/apis/categoryAPI";
 import {
   Dialog,
   DialogContent,
@@ -18,39 +17,41 @@ import {
   DialogTitle,
   DialogDescription,
 } from "@/components/ui/dialog";
-import CreateCategoryForm from "@/components/forms/category/CreateCategoryForm";
 import LoadingPanel from "@/components/LoadingPanel";
-import EditCategoryForm from "@/components/forms/category/EditCategoryForm";
 import ConfirmDialog from "@/components/ConfirmDialog";
-import { useDeleteCategory } from "@/apis/categoryAPI";
+import { useGetSuppliers, useDeleteSupplier } from "@/apis/supplierAPI";
+import CreateSupplierForm from "@/components/forms/supplier/CreateSupplierForm";
+import EditSupplierForm from "@/components/forms/supplier/EditSupplierForm";
 
-const CategoryManagePage = () => {
+const SupplierManagePage = () => {
+  const { getSuppliers, isLoading, suppliers } = useGetSuppliers();
+  const { deleteSupplier } = useDeleteSupplier();
+
   const [createDialogOpen, setCreateDialogOpen] = useState(false);
   const [editDialogOpen, setEditDialogOpen] = useState(false);
   const [deleteDialogOpen, setDeleteDialogOpen] = useState(false);
-  const [selectedCategory, setSelectedCategory] = useState<Category | null>(
+  const [selectedSupplier, setSelectedSupplier] = useState<Supplier | null>(
     null
   );
-  const { getCategories, isLoading, categories } = useGetCategories();
-  const { deleteCategory } = useDeleteCategory();
+
   useEffect(() => {
-    getCategories();
+    getSuppliers();
   }, []);
 
-  const handleEditCategory = (category: Category) => () => {
-    setSelectedCategory(category);
+  const handleEditSupplier = (supplier: Supplier) => () => {
+    setSelectedSupplier(supplier);
     setEditDialogOpen(true);
   };
 
-  const handleDeleteCategory = async (category: Category) => {
-    await deleteCategory(category.id);
+  const handleDeleteSupplier = async (supplier: Supplier) => {
+    await deleteSupplier(supplier.id);
     setDeleteDialogOpen(false);
-    await getCategories();
+    await getSuppliers();
   };
 
   return (
     <div>
-      <h1 className="text-2xl py-4 text-center">Quản lý danh mục sản phẩm</h1>
+      <h1 className="text-2xl py-4 text-center">Quản lý nhà cung cấp</h1>
       <div className="flex justify-end">
         <Button
           onClick={() => setCreateDialogOpen(true)}
@@ -70,30 +71,34 @@ const CategoryManagePage = () => {
             <TableHeader>
               <TableRow>
                 <TableHead>STT</TableHead>
-                <TableHead>Tên danh mục</TableHead>
-                <TableHead>Tên Alias</TableHead>
-                <TableHead>Mô tả</TableHead>
+                <TableHead>Tên nhà cung cấp</TableHead>
+                <TableHead>Thông tin liên hệ</TableHead>
+                <TableHead>Email</TableHead>
+                <TableHead>SĐT</TableHead>
+                <TableHead>Địa chỉ</TableHead>
                 <TableHead>Thao tác</TableHead>
               </TableRow>
             </TableHeader>
             <TableBody>
-              {categories.map((category, index) => (
-                <TableRow key={category.id}>
+              {suppliers.map((supplier, index) => (
+                <TableRow key={supplier.id}>
                   <TableCell>{index + 1}</TableCell>
-                  <TableCell>{category.name}</TableCell>
-                  <TableCell>{category.categoryAliasName}</TableCell>
-                  <TableCell>{category.description}</TableCell>
+                  <TableCell>{supplier.name}</TableCell>
+                  <TableCell>{supplier.supplierContact}</TableCell>
+                  <TableCell>{supplier.email}</TableCell>
+                  <TableCell>{supplier.phone}</TableCell>
+                  <TableCell>{supplier.address}</TableCell>
                   <TableCell>
                     <div className="flex gap-1">
                       <Button
-                        onClick={handleEditCategory(category)}
+                        onClick={handleEditSupplier(supplier)}
                         className=" bg-transparent hover:bg-yellow-200 text-white font-bold rounded"
                       >
                         <PencilLine size={18} className="text-yellow-500" />
                       </Button>
                       <Button
                         onClick={() => {
-                          setSelectedCategory(category);
+                          setSelectedSupplier(supplier);
                           setDeleteDialogOpen(true);
                         }}
                         className=" bg-transparent hover:bg-red-200 text-white font-bold rounded"
@@ -111,15 +116,15 @@ const CategoryManagePage = () => {
       <Dialog open={createDialogOpen} onOpenChange={setCreateDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Thêm mới danh mục</DialogTitle>
+            <DialogTitle>Thêm mới nhà cung cấp</DialogTitle>
             <DialogDescription>
-              Điền thông tin vào form dưới đây để thêm mới danh mục
+              Điền thông tin vào form dưới đây để thêm mới nhà cung cấp.
             </DialogDescription>
           </DialogHeader>
-          <CreateCategoryForm
+          <CreateSupplierForm
             onSubmit={() => {
               setCreateDialogOpen(false);
-              getCategories();
+              getSuppliers();
             }}
           />
         </DialogContent>
@@ -127,30 +132,30 @@ const CategoryManagePage = () => {
       <Dialog open={editDialogOpen} onOpenChange={setEditDialogOpen}>
         <DialogContent>
           <DialogHeader>
-            <DialogTitle>Cập nhật danh mục</DialogTitle>
+            <DialogTitle>Cập nhật nhà cung cấp</DialogTitle>
             <DialogDescription>
-              Điền thông tin vào form dưới đây để chỉnh sửa danh mục
+              Điền thông tin vào form dưới đây để chỉnh sửa nhà cung cấp.
             </DialogDescription>
           </DialogHeader>
-          <EditCategoryForm
-            selectedCategory={selectedCategory}
+          <EditSupplierForm
+            selectedSupplier={selectedSupplier}
             onSubmit={async () => {
               setEditDialogOpen(false);
-              await getCategories();
+              await getSuppliers();
             }}
           />
         </DialogContent>
       </Dialog>
       <ConfirmDialog
         onConfirm={() =>
-          selectedCategory && handleDeleteCategory(selectedCategory)
+          selectedSupplier && handleDeleteSupplier(selectedSupplier)
         }
         onCancel={() => setDeleteDialogOpen(false)}
         open={deleteDialogOpen}
-        message="Bạn có chắc chắn muốn xóa danh mục này?"
+        message="Bạn có chắc chắn muốn xóa nhà cung cấp này này?"
       />
     </div>
   );
 };
 
-export default CategoryManagePage;
+export default SupplierManagePage;
