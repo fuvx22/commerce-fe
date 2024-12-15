@@ -1,5 +1,12 @@
 # Commerce-FE
 
+## Member
+
+| Name            | Student Id     | 
+|-----------------|--------------- |
+|Nguyễn Hoàng Phúc| 3120410409     |
+|Võ Ngọc Phú      | 3120410404     |
+
 ## Table of Contents
 - [Introduction](#introduction)
 - [Features](#features)
