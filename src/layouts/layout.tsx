@@ -1,5 +1,5 @@
-import Header from "@/components/ui/Header";
-import Footer from "@/components/ui/Footer";
+import Header from "@/components/Header";
+import Footer from "@/components/Footer";
 
 type Props = {
   children: React.ReactNode;
@@ -8,9 +8,9 @@ type Props = {
 
 const Layout = ({ children }: Props) => {
   return (
-    <div className="flex flex-col min-h-screen">
+    <div className="flex flex-col">
       <Header />
-      <div className="container mx-auto py-10 flex min-h-screen">{children}</div>
+      <div className="container min-h-screen mx-auto max-w-5xl">{children}</div>
       <Footer />
     </div>
   );
