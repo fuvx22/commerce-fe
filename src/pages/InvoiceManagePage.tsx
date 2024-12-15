@@ -329,8 +329,10 @@ const InvoiceManagePage = () => {
               onValueChange={(value) => {
                 handleSelectStatus(value);
               }}
-
-              disabled={selectedInvoice?.current?.status != "Chờ thanh toán"}
+              disabled={
+                selectedInvoice?.current?.status != "Chờ thanh toán" ||
+                selectedInvoice?.current?.shippingStatus === "Đã hủy"
+              }
             >
               <SelectTrigger className="w-full">
                 <SelectValue placeholder="Cập nhật đơn hàng tại đây" />

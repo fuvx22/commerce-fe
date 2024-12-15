@@ -25,6 +25,7 @@ import OrderForm, { OrderFormData } from "@/components/forms/OrderForm";
 import LoadingButton from "@/components/LoadingButton";
 import { useAuth } from "@/auth/authContext";
 import { Link, useNavigate } from "react-router-dom";
+import { ShoppingBasket } from "lucide-react";
 
 const CartPage: React.FC = () => {
   const { cart, removeFromCart, updateCartItem, clearCart, getCartTotal } =
@@ -115,7 +116,15 @@ const CartPage: React.FC = () => {
         <TabsContent value="checkout">
           <h1 className="text-center text-2xl font-bold my-2">Giỏ Hàng</h1>
           {cart.length === 0 ? (
-            <p>Giỏ hàng của bạn đang trống.</p>
+            <div className="flex flex-col items-center gap-2 mt-8">
+              <ShoppingBasket size={100} />
+              <p>Không có sản phẩm nào trong giỏ hàng</p>
+              <p>
+                <Link to="/shop" className="underline">
+                  Mua sắm ngay
+                </Link>
+              </p>
+            </div>
           ) : (
             <div className="flex flex-col sm:flex-row gap-2 md:gap-6">
               <ul className="cart-items flex flex-col gap-2 flex-1">

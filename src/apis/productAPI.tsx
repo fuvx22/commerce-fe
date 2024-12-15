@@ -58,6 +58,7 @@ export const useGetProducts = () => {
         page: res.data.data.page,
         totalPage: res.data.data.totalPage
       })
+      return res.data.data
     } catch (error) {
       console.error("Error fetching Products:", error);
     } finally {

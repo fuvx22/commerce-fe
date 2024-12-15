@@ -21,11 +21,14 @@ import SupplierManagePage from "@/pages/SupplierManagePage";
 import UserManagePage from "@/pages/UserManagePage";
 import StatisticPage from "@/pages/StatisticPage";
 import ProcessVerifyPage from "@/pages/ProcessVerifyPage";
+import HomePage from "@/pages/HomePage";
 
 function AppRoutes() {
   return (
     <Routes>
-      <Route path="/" element={<Layout>Home page</Layout>} />
+      <Route path="/" element={<Layout>
+        <HomePage />
+      </Layout>} />
       <Route
         path="/404"
         element={

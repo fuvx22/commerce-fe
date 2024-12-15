@@ -6,7 +6,7 @@ const Header = () => {
   return (
     <div className="border-b-2 p-6 bg-white flex items-center justify-between">
       <Link to={"/"} className="text-2xl font-bold tracking-tight">
-        Ecommerce của Phúc Pro
+        Ecommerce Mô hình 2024
       </Link>
       <div className="hidden md:block">
         <MainNav />
