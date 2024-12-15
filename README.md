@@ -20,11 +20,14 @@ Commerce-FE is a front-end project for an e-commerce platform. It provides a use
 - **JWT** - JSON Web Tokens for secure user authentication
 
 ## Features
-- Product listing and search
-- Product detail pages
-- Shopping cart functionality
-- User authentication and profile management
-- Order history and tracking
+- Browse and search for products
+- View detailed product information
+- Add and remove items from the shopping cart
+- User authentication (sign up, login, logout)
+- Manage user profiles and update personal information
+- View order history and track order status
+- Responsive design for mobile and desktop
+- Secure API communication using JWT
 
 ## Installation
 
