@@ -45,6 +45,7 @@ Before you begin, ensure you have met the following requirements:
 - You have installed Node.js and npm.
 - You have a Cloudinary account. If you don't have one, you can create a free account at [Cloudinary](https://cloudinary.com/).
 - You have created a Cloudinary app and obtained your Cloudinary URL and upload preset.
+- You have Installed and run the backend app at [here](https://github.com/hoangphuc101202/commerce-be).
 
 ### Installation
 
@@ -83,7 +84,7 @@ To start the development server, run:
 ```bash
 npm run dev
 ```
-This will launch the application in your default web browser. The development server will automatically reload the page if you make changes to the code.
+This will launch the application in your default web browser. 
 
 ## License
 This project is licensed under the MIT License. See the [LICENSE](LICENSE) file for more details.
